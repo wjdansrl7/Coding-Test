@@ -14,7 +14,7 @@ void solution(int num)
         dp[i] = dp[i - 1] + dp[i - 2] * 2;
     }
 
-    cout << dp[num - 1] << '\n';
+    cout << dp[num - 1] % 796796 << '\n';
 }
 int main(int argc, char const *argv[])
 {
