@@ -29,7 +29,7 @@ int myMax(int a, int b, int c)
         if (b > c)
         {
 
-            row = 1;
+            intdex = 1;
             return b;
         }
         else

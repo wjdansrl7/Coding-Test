@@ -23,8 +23,9 @@ void solution(int arr[3][MAXN + 1], int n)
 
     for (int i = 3; i <= n; i++)
     {
-        dp[i] = max(dp[i - 1] + dp[i - 2], arr[1][i - 2] + dp[i - 2]);
-        dp[i] = max(dp[i], dp[i - 2] + arr[2][i]);
+        // dp[i] = max(dp[i - 1] + dp[i - 2], arr[1][i - 2] + dp[i - 2]);
+        // dp[i] = max(dp[i], dp[i - 2] + arr[2][i]);
+        dp[i] = max(dp[i-1]+arr[1][i], dp[i-1] + )
 
         cout << i << " " << dp[i] << endl;
     }

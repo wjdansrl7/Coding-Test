@@ -68,31 +68,6 @@ int main(int argc, char const *argv[])
             cout << "NO"
                  << "\n";
         }
-
-        // for (int i = 0; i < strLength / 2; i++)
-        // {
-        //     if (str[i] != str[j])
-        //     {
-        //         j--;
-        //         continue;
-        //     }
-        //     else
-        //     {
-        //         endflag = 1;
-        //         break;
-        //     }
-        // }
-
-        // if (endflag == 1)
-        // {
-        //     cout << "NO"
-        //          << "\n";
-        // }
-        // else
-        // {
-        //     cout << "YES"
-        //          << "\n";
-        // }
     }
 
     return 0;

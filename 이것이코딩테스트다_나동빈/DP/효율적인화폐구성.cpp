@@ -1,48 +1,31 @@
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
-int rest1, rest2;
-int result;
-
-void solution(int money, int count)
-{
-    if (money < 0)
-    {
-        return;
-    }
-
-    if (money == 0)
-    {
-        if (result > count)
-        {
-            result = count;
-        }
-    }
-
-    solution(money - rest1, count + 1);
-    solution(money - rest2, count + 1);
-}
+int d[10000];
 
 int main(int argc, char const *argv[])
 {
-    int money;
+    int money, n;
+    memset(d, 10001, sizeof(d));
 
-    cin >> money;
-    cin >> rest1 >> rest2;
+    cin >> n >> money;
 
-    result = money;
+    d[0] = 0;
 
-    solution(money, 0);
-
-    if (result == money)
+    for (int i = 0; i < n; i++)
     {
-        cout << -1 << '\n';
-    }
-    else
-    {
-        cout << result << '\n';
+        int a;
+        cin >> a;
+        d[a] = 1;
     }
 
+    for (int i = 0; i < money; i++)
+    {
+        
+    }
+    
+    
     return 0;
 }
