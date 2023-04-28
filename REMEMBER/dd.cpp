@@ -1,31 +1,14 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <string>
 
 using namespace std;
 
-int main(int argc, char const *argv[])
+int main()
 {
-    vector<int> v;
 
-    v.push_back(1);
-    v.push_back(2);
-    v.push_back(3);
-    v.push_back(2);
-    v.push_back(3);
-    v.push_back(3);
+    int a = 3 !;
 
-    // if (find(v.begin(), v.end(), 1) != v.end())
-    // {
-    // cout << "찾았다";
-    // }
-
-    v.erase(unique(v.begin(), v.end()), v.end());
-
-    for (auto it : v)
-    {
-        cout << it << " ";
-    }
-
+    cout << a;
     return 0;
 }

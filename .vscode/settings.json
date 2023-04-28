@@ -1,6 +1,8 @@
 {
   "files.associations": {
     "ios": "cpp",
-    "ratio": "cpp"
+    "ratio": "cpp",
+    "iostream": "cpp",
+    "unordered_map": "cpp"
   }
 }
