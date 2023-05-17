@@ -37,7 +37,7 @@ public:
     {
         assert(size != 0);
         data[1] = data[size--];
-        for (size_t i = 0; left < size;)
+        for (size_t i = 0; left <= size;)
         {
             if (left == size || data[left] > data[right])
             {
