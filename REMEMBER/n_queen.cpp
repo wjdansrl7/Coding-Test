@@ -15,7 +15,7 @@ int main()
     board.resize(n + 1);
     n_queen(0);
     cout << sum << endl
-         << Max;
+         << Max << endl;
 }
 void n_queen(int i)
 {
