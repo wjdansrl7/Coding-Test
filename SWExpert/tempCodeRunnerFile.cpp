@@ -1,4 +1,4 @@
- i++)
-        // {
-        //     cout << i << " " << arr[i] << " ";
-        // }
+hile (!q.empty() && curr_x > q.front().first)
+            {
+                q.pop();
+            }
