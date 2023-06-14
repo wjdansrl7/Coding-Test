@@ -37,6 +37,11 @@ void simul()
         // 벨트가 회전하면 로봇들도 회전해야 함.
         check.push_front(check.back());
         check.pop_back();
+
+        if (check[n - 1] == true)
+            check[n - 1] = false; // N번째 위치라면 로봇을 땅에 내림.
+
+        // 2. 가장 먼저 벨트에 올라간 로봇부터 회전하는 방향으로 한칸 이동
     }
 }
 
