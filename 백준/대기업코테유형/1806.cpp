@@ -14,22 +14,9 @@ int partial_sum(long long target)
     int start = 0, end = 1;
     int minLen = 987654321;
 
-    // if (v[start] >= target)
-    // {
-    //     return 1;
-    // }
-    // else
-    // {
-    //     end++;
-    // }
-
+    long long sum = v[start] + v[end];
     while (start <= end && start <= v.size() - 1)
     {
-        long long sum = 0;
-        for (int i = start; i <= end; i++)
-        {
-            sum += v[i];
-        }
         if (sum >= target)
         {
             if (minLen >= end - start + 1)
@@ -40,17 +27,17 @@ int partial_sum(long long target)
                     return 2;
                 }
             }
-            start++;
+            sum -= v[start++];
         }
         else
         {
             if (end < v.size() - 1)
             {
-                end++;
+                sum += v[++end];
             }
             else
             {
-                start++;
+                sum -= v[start++];
             }
         }
     }
