@@ -77,6 +77,23 @@ void unionParent(int x, int y)
     }
 }
 
+int union2(int x, int y)
+{
+    x = find(x);
+    y = find(y);
+
+    if (x != y)
+    {
+        root[y] = x; // y의 root를 x로 변경
+        nodeCount[x] += nodeCount[y]; // x의 노드 수에 y의 node 수를 더한다.
+        nodeCount[y] = 1; // x에 붙은 y의 node 수는 1로 초기화
+
+    }
+
+    return nodeCount[x]; // 가장 root의 node 수 반환
+    
+}
+
 int main(int argc, char const *argv[])
 {
     // 초기화

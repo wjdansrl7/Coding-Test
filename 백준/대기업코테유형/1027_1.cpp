@@ -54,10 +54,10 @@ int main(int argc, char const *argv[])
         curve.clear();
     }
 
-    // for (int i = 1; i <= n; i++)
-    // {
-    //     cout << result[i] << " ";
-    // }
+    for (int i = 1; i <= n; i++)
+    {
+        cout << result[i] << " ";
+    }
 
     return 0;
 }
