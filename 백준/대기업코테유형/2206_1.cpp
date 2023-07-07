@@ -3,12 +3,14 @@
 #include <queue>
 #include <deque>
 #include <string>
+#include <cstring>
 using namespace std;
 
 int n, m;
 int arr[1001][1001];
 deque<pair<int, pair<int, int>>> q;
 priority_queue<pair<int, pair<int, int>>> pq;
+
 bool visited[1001][1001];
 int res = 987654321;
 
@@ -19,17 +21,22 @@ void bfs(int x, int y)
 {
     visited[x][y] = true;
     q.push_back({1, {x, y}});
+    // q.push_back({x, {y, 1}});
 
     while (!q.empty())
     {
         int curr_x = q.front().second.first;
         int curr_y = q.front().second.second;
         int curr_cnt = q.front().first;
+        // int curr_x = q.front().first;
+        // int curr_y = q.front().second.first;
+        // int curr_cnt = q.front().second.second;
         q.pop_front();
 
         if (curr_x == n && curr_y == m)
         {
             res = min(res, curr_cnt);
+            continue;
         }
 
         for (int i = 0; i < 4; i++)
@@ -45,7 +52,9 @@ void bfs(int x, int y)
             {
                 if (arr[nx][ny] == 1)
                 {
-                    pq.push({curr_cnt, {nx, ny}}); // 1인점은 경로에 포함하지 않았다.(이전까지의 경로만 더한 것)
+                    // pq.push({curr_cnt, {nx, ny}}); // 1인점은 경로에 포함하지 않았다.(이전까지의 경로만 더한 것)
+                    pq.push({nx, {ny, curr_cnt}});
+                    visited[nx][ny] = true;
                     continue;
                 }
                 visited[nx][ny] = true;
@@ -57,12 +66,15 @@ void bfs(int x, int y)
 
 void bfs2()
 {
-    // pq.pop 안함, 다음 visited[]에 대해
     while (!pq.empty())
     {
-        int start_x = pq.top().second.first;
-        int start_y = pq.top().second.second;
-        int start_cnt = pq.top().first + 1;
+        memset(visited, 0, sizeof(visited));
+        // int start_x = pq.top().second.first;
+        // int start_y = pq.top().second.second;
+        // int start_cnt = pq.top().first + 1;
+        int start_x = pq.top().first;
+        int start_y = pq.top().second.first;
+        int start_cnt = pq.top().second.second + 1;
         pq.pop();
 
         visited[start_x][start_y] = true;
@@ -78,6 +90,7 @@ void bfs2()
             if (curr_x == n && curr_y == m)
             {
                 res = min(res, curr_cnt);
+                continue;
             }
 
             for (int i = 0; i < 4; i++)
@@ -119,10 +132,8 @@ int main(int argc, char const *argv[])
     }
 
     bfs(1, 1);
-    if (res == 987654321)
-    {
-        bfs2();
-    }
+
+    bfs2();
 
     if (res == 987654321)
     {
