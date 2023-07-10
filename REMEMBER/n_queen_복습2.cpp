@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <string>
+using namespace std;
+
+int n;
+vector<int> board;
+void n_queen(int i);
+bool promising(int i);
+unsigned long long sum = 0, Max = 0;
+string a = "";
+int main(int argc, char const *argv[])
+{
+    cin >> n;
+    board.resize(n + 1);
+    n_queen(0);
+    cout << sum << '\n'
+         << Max << '\n';
+    return 0;
+}
+
+void n_queen(int i)
+{
+    if (promising(i))
+    {
+        if (i == n)
+        {
+            for (int i = 1; i < board.size(); i++)
+            {
+                a += to_string(board[i]);
+            }
+            long long int temp = stoll(a);
+            if (Max < temp)
+            {
+                Max = temp;
+            }
+            cout << a << '\n';
+            a = "";
+            sum++;
+        }
+        else
+            for (int j = 1; j <= n; j++)
+            {
+                board[i + 1] = j;
+                n_queen(i + 1);
+            }
+    }
+}
+
+bool promising(int i)
+{
+    int idx = 1;
+    bool flag = true;
+
+    while (idx < i && flag)
+    {
+        if (board[i] == board[idx] || abs(board[i] - board[idx]) == abs(i - idx))
+        {
+            flag = false;
+        }
+        idx++;
+    }
+    return flag;
+}
