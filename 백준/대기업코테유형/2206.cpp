@@ -20,8 +20,13 @@ int bfs(int x, int y)
     q.push_back({x, y});
     int cnt = 0;
 
-    while (!q.empty())
+    while (!q.empty() || !tmp.empty())
     {
+        if (q.empty())
+        {
+            q.push_back({tmp.top().first, tmp.top().second});
+        }
+        
         int curr_x = q.front().first;
         int curr_y = q.front().second;
         q.pop_front();
@@ -56,6 +61,35 @@ int bfs(int x, int y)
         }
     }
 
+    while (!tmp.empty())
+    {
+        int curr_x = tmp.top().first;
+        int curr_y = tmp.top().second;
+        tmp.pop();
+        cnt++;
+
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = curr_x + dx[i];
+            int ny = curr_y + dy[i];
+
+            if (nx < 1 || nx > n || ny < 1 || ny > m || visited[nx][ny])
+            {
+                continue;
+            }
+            else
+            {
+                visited[nx][ny] = true;
+                q.push_back({nx, ny});
+
+            }
+            
+        }
+        
+
+    }
+    
+
     return -1;
 }
 
@@ -70,6 +104,13 @@ int main(int argc, char const *argv[])
             cin >> arr[i][j];
         }
     }
+
+    while (bfs(1,1) == -1)
+    {
+        arr[tmp.top().first][tmp.top().second] = 0;
+        
+    }
+    
 
     bfs(1, 1);
 

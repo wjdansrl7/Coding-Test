@@ -38,14 +38,12 @@ int bfs(int x, int y)
             {
                 res = curr_dist;
             }
-            // continue;
         }
 
         for (int i = 0; i < 4; i++)
         {
             int nx = curr_x + dx[i];
             int ny = curr_y + dy[i];
-            // int nxt_wallable = wallable;
 
             if (nx < 0 || nx >= n || ny < 0 || ny >= m || visited[0][nx][ny])
             {

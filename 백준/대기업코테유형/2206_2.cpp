@@ -20,11 +20,15 @@ void bfs(int x, int y)
     };
 
     visited[x][y] = 1;
-    q.push_back({x, {1, y}});
+    q.push_back({x, {y, 1}});
 
     while (!q.empty())
     {
-        int curr_x = q.front().fir
+        int curr_x = q.front().first;
+        int curr_y = q.front().second.first;
+        int curr_cnt = q.front().second.second;
+        q.pop_front();
+        
     }
 }
 

@@ -9,6 +9,13 @@
     "deque": "cpp",
     "string": "cpp",
     "queue": "cpp",
-    "stack": "cpp"
+    "stack": "cpp",
+    "__hash_table": "cpp",
+    "__tree": "cpp",
+    "atomic": "cpp",
+    "map": "cpp",
+    "set": "cpp",
+    "system_error": "cpp",
+    "unordered_set": "cpp"
   }
 }

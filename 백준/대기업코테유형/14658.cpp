@@ -1,3 +1,8 @@
+/*
+별 a가 트램펄린에 떨어지는 별 중에서 x좌표가 가장 작으며 별 b가 트램펄린에 떨어지는 별 중에서 y좌표가 가장
+작은 별인 상황"을 고정
+*/
+
 #include <iostream>
 #include <deque>
 #include <vector>

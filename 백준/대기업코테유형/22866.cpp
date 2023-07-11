@@ -4,6 +4,8 @@
 #include <algorithm>
 using namespace std;
 
+// 이전 값들을 참고한다?????
+
 int main(int argc, char const *argv[])
 {
     ios::sync_with_stdio(false);

@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
 
         bool flag = false;
 
-        if (sum % 2 == 0)
+        if (sum % 2 == 0) // 총 금액이 짝수가 나와야 함.
         {
             int target = sum / 2;
 
