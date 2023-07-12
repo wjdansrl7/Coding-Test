@@ -23,7 +23,13 @@ int main(int argc, char const *argv[])
 
     // }
 
-    int start = 0, end = b - a + 1;
+    long long start = 0, end = b - a + 1;
+
+    while (start < end)
+    {
+        
+    }
+    
 
     return 0;
 }

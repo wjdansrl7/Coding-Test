@@ -62,11 +62,9 @@ int main(int argc, char const *argv[])
 
         int r, c;
         long long x;
-        unordered_set<long long> a;
         long long res = 0;
         for (int i = 0; i < q; i++)
         {
-            // a.clear();
             long long result = 0;
 
             cin >> r >> c >> x;
@@ -104,26 +102,6 @@ int main(int argc, char const *argv[])
                 res += tmp;
             }
             tmp = result;
-
-            // if (col[r] == x || row[c] == x)
-            // {
-            //     for (int j = 1; j <= n; j++)
-            //     {
-            //         a.insert(col[j]);
-            //     }
-            //     for (int j = 1; j <= m; j++)
-            //     {
-            //         a.insert(row[j]);
-            //     }
-
-            //     res += n + m - a.size();
-            // }
-            // else
-            // {
-            //     res += n + m - tmp;
-            // }
-
-            // tmp = a.size();
         }
         cout << "#" << tc << " " << res << '\n';
     }
