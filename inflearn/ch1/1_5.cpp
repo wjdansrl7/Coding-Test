@@ -1,95 +1,61 @@
 #include <iostream>
-#include <cstring>
 #include <vector>
+#include <climits>
 #include <algorithm>
 using namespace std;
 
+bool cmp(pair<int, pair<int, int>> &a, pair<int, pair<int, int>> &b)
+{
+    return a.second.second < b.second.second;
+}
+
 int main(int argc, char const *argv[])
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    // freopen("in5.txt", "r", stdin);
+
     int n, m, r;
+
     cin >> n >> m >> r;
 
-    vector<pair<int, pair<int, int>>> interval;
+    vector<pair<int, pair<int, int>>> study;
+    vector<int> dp(m + 1);
 
-    int st, et, power;
-    for (int i = 0; i < m; i++)
+    int st, et, ev;
+    int res = INT_MIN;
+    study.push_back({0, {0, 0}});
+    for (int i = 1; i <= m; i++)
     {
-        cin >> st >> et >> power;
-        interval.push_back({power, {st, et}});
+        cin >> st >> et >> ev;
+        study.push_back({ev, {st, et}});
     }
 
-    sort(interval.begin(), interval.end(), greater<>());
+    sort(study.begin(), study.end(), cmp);
 
-    vector<bool> visited(n + 1, 0);
-    long long result = 0, res;
-    for (int i = 0; i < interval.size(); i++)
+    for (int i = 1; i <= m; i++)
     {
-        // visited.clear();
-        // memset(visited, 0, sizeof(visited));
-        for (int i = 0; i < n + 1; i++)
-        {
-            visited[i] = false;
-        }
-
-        for (int i = 1; i <= n; i++)
-        {
-            cout << visited[i] << " ";
-        }
-        cout << '\n';
-
-        res = 0;
-        int curr_st = interval[i].second.first;
-        int curr_et = interval[i].second.second;
-
-        res += interval[i].first;
-
-        for (int j = curr_st + 1; j < curr_et + r; j++)
-        {
-            visited[j] = true;
-        }
-
-        for (int j = 0; j < interval.size(); j++)
-        {
-            if (i == j)
-            {
-                continue;
-            }
-
-            int t_st = interval[j].second.first;
-            int t_et = interval[j].second.second;
-            int t_pw = interval[j].first;
-            int flag = 1;
-
-            for (int k = t_st + 1; k < t_et + r; k++)
-            {
-                if (!visited[k])
-                {
-                    continue;
-                }
-                else
-                {
-                    flag = 0;
-                    break;
-                }
-            }
-
-            if (flag)
-            {
-                for (int k = t_st + 1; k < t_et + r; k++)
-                {
-                    visited[k] = true;
-                }
-                cout << t_pw << '\n';
-                res += t_pw;
-            }
-        }
-        if (result < res)
-        {
-            result = res;
-        }
+        dp[i] = study[i].first;
     }
 
-    cout << result << '\n';
+    for (int i = 1; i <= m; i++)
+    {
+        for (int j = i - 1; j > 0; j--)
+        {
+            if (study[i].second.first >= study[j].second.second + r)
+            {
+                if (dp[j] + study[i].first > dp[i])
+                {
+                    dp[i] = dp[j] + study[i].first;
+                }
+            }
+        }
+        res = max(res, dp[i]);
+    }
+
+    cout << res << '\n';
 
     return 0;
 }

@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
         else
             tmp += x;
     }
-    ch[tmp]++;
+    ch[tmp]++; // 마지막 단어
 
     for (auto x : ch)
         cout << x.first << " " << x.second << '\n';

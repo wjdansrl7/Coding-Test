@@ -13,6 +13,8 @@ int main(int argc, char const *argv[])
         cin >> n >> m >> q;
 
         vector<vector<int>> v(n + 1, vector<int>(m + 1, 0));
+        vector<vector<bool>> visited(n + 1, vector<int>(m + 1, false));
+        
     }
 
     return 0;

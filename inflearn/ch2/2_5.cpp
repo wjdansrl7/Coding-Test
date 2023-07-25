@@ -36,10 +36,8 @@ int main(int argc, char const *argv[])
         }
     }
 
-    for (int i = 0; i < d + 1; i++)
-    {
-        sort(taste[i].begin(), taste[i].end());
-    }
+    
+
 
     return 0;
 }
