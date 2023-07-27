@@ -5,64 +5,64 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    // freopen("in2.txt", "r", stdin);
+    int n, k;
+    long long t;
 
-    ios_base::sync_with_stdio(false);
-
-    int n;
-    long long k;
     cin >> n;
 
-    vector<pair<long long, int>> T(n + 1), sT(n + 1);
+    vector<long long> init_p(n + 1);
+    vector<pair<long long, int>> p;
 
-    for (int i = 1; i <= n; i++)
+    for (int i = 0; i < n; i++)
     {
-        cin >> T[i].first;
-        T[i].second = i;
+        cin >> t;
+        init_p.push_back(t);
+        p.push_back({t, i + 1});
     }
-
-    sT = T;
-
-    sort(sT.begin(), sT.end());
 
     cin >> k;
 
-    int rest = T.size() - 1;
-    int idx;
+    sort(p.begin(), p.end());
 
-    for (int i = 1; i <= sT.size(); i++)
+    // long long sum = 0;
+    long long rotation = k / p.size();
+    long long num = k % p.size();
+
+    vector<int> ex_idx;
+
+    int u = 0;
+
+    for (int i = 0; i < p.size(); i++)
     {
-        if (rest == 0)
+        if (rotation >= p[i].first)
         {
-            cout << -1 << '\n';
-            break;
-        }
-
-        if ((sT[i].first - sT[i - 1].first) * rest <= k)
-        {
-            k -= (sT[i].first - sT[i - 1].first) * rest;
-            rest--;
-            T[sT[i].second].first = 0;
-        }
-        else
-        {
-
-            idx = k % rest;
-            int target = 0;
-            for (int i = 1; i <= T.size(); i++)
-            {
-                if (T[i].first != 0)
-                {
-                    target++;
-                }
-                if (target == idx + 1)
-                {
-                    cout << T[i].second << '\n';
-                    return 0;
-                }
-            }
+            num += rotation - p[i].first;
+            init_p[p[i].second - 1] = 0;
+            // init_p[p[i].second - 1] = -1;
+            // u++;
+            // ex_idx.push_back(p[i].second);
         }
     }
+
+    int cnt2 = 0;
+    for (int i = 0; i < init_p.size(); i++)
+    {
+        if (init_p[i] == 0)
+            cnt2++;
+    }
+
+    for (int i = 0; i < num % (init_p.size() - cnt2); i++)
+    {
+    }
+
+    // for (int i = 0; i < num; i++)
+    // {
+    //     if (init_p[i] == 0)
+    //     {
+    //         continue;
+    //     }
+
+    // }
 
     return 0;
 }

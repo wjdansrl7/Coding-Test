@@ -1,57 +1,49 @@
 #include <iostream>
+#include <unordered_map>
 #include <string>
-#include <cstring>
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    ios::sync_with_stdio(false);
+    ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("in5.txt", "r", stdin);
+    // freopen("in5.txt", "r", stdin);
+    int cnt = 0;
+    string s, t;
+    cin >> s >> t;
 
-    string str, target;
-    int alpha[26] = {
-        0,
-    };
-    int res = 0;
+    unordered_map<char, int> sh, th;
 
-    cin >> str >> target;
-
-    for (int i = 0; i < target.size(); i++)
+    for (auto x : t)
     {
-        alpha[int(target[i]) - 'a']++;
+        th[x]++;
     }
 
-    for (int i = 0; i <= str.size() - target.size(); i++)
+    for (int i = 0; i < t.size() - 1; i++)
     {
-        int cnt = 0;
-        for (int j = i; j < target.size() + i; j++)
-        {
-            if (alpha[int(str[j]) - 'a'] != 0)
-            {
-                alpha[int(str[j]) - 'a']--;
-                cnt++;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        if (cnt == target.size())
-        {
-            res++;
-        }
-
-        memset(alpha, 0, sizeof(alpha));
-
-        for (int j = 0; j < target.size(); j++)
-        {
-            alpha[int(target[j]) - 'a']++;
-        }
+        sh[s[i]]++;
     }
 
-    cout << res << '\n';
+    int j = 0;
+    for (int i = t.size() - 1; i < s.size(); i++)
+    {
+        sh[s[i]]++;
+        if (th == sh)
+        {
+            cnt++;
+        }
+        sh[s[j]]--;
+
+        if (sh[s[j]] == 0)
+        {
+            sh.erase(s[j]);
+        }
+        j++;
+    }
+
+    cout << cnt << '\n';
+
+    return 0;
 }

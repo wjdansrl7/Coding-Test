@@ -15,11 +15,10 @@ int main(int argc, char const *argv[])
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("in5.txt", "r", stdin);
+    // freopen("in5.txt", "r", stdin);
     int n;
     cin >> n;
 
-    // vector<int> res(26, 0);
     unordered_map<char, int> ts;
     vector<int> res(n + 1, 0);
     vector<pair<int, pair<char, int>>> st;
