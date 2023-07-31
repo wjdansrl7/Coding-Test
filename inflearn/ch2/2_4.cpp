@@ -7,7 +7,16 @@ int w, h;
 int x, y, et_x, et_y;
 
 int arr[1001][1001];
+
 int dx[] = {0, 0, -1, 1};
+int dy[] = {-1, 1, 0, 0};
+int viisted[2][1001][1001];
+
+void bfs()
+{
+
+}
+
 
 int main(int argc, char const *argv[])
 {

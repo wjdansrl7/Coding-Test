@@ -29,6 +29,7 @@ int main(int argc, char const *argv[])
     pan[sx][sy] = 2;
     while (!q.empty())
     {
+        // 매 방향이 결정될 때마다 x, y는 바뀌면 안된다.
         int x = q.front().first;
         int y = q.front().second;
         q.pop();
@@ -38,7 +39,8 @@ int main(int argc, char const *argv[])
             int yy = y;
             while (xx + dx[i] > 0 && xx + dx[i] <= n && yy + dy[i] > 0 && yy + dy[i] <= n && pan[xx + dx[i]][yy + dy[i]] != 1)
             {
-                if (pan[xx + dx[i]][yy + dy[i]] == 0)
+                // 값이 없을 때만 갱신된다.
+                if (pan[xx + dx[i]][yy + dy[i]] == 0) // 이미 값이 있으면 갱신하면 안됨(그 값이 더 작은 것이므로)
                 {
                     q.push(make_pair(xx + dx[i], yy + dy[i]));
                     pan[xx + dx[i]][yy + dy[i]] = pan[x][y] + 1;

@@ -53,6 +53,11 @@ int main(int argc, char const *argv[])
 
     for (int i = 0; i < num % (init_p.size() - cnt2); i++)
     {
+        if (init_p[i] == 0)
+        {
+            continue;
+        }
+        
     }
 
     // for (int i = 0; i < num; i++)
