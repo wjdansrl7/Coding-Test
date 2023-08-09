@@ -13,7 +13,7 @@ int dist[3][101][101];
 int dx[] = {0, 0, -1, 1};
 int dy[] = {-1, 1, 0, 0};
 
-void bfs(int x, int y, int idx)
+void bfs(int x, int y, int idx) 
 {
     dist[idx][x][y] = 2;
     q.push({x, y});
