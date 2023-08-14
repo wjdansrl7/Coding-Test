@@ -8,7 +8,7 @@ int main(int argc, char const *argv[])
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    freopen("in5.txt", "r", stdin);
+    // freopen("in5.txt", "r", stdin);
 
     int n;
     cin >> n;

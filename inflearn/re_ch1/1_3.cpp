@@ -8,7 +8,6 @@ int main(int argc, char const *argv[])
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     // freopen("in2.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
 
     int n;
     cin >> n;
