@@ -6,30 +6,38 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
     ios_base::sync_with_stdio(false);
-    // freopen("in2.txt", "r", stdin);
+    cin.tie(NULL);
 
-    long long n, k;
+    int n;
+    long long k;
     cin >> n;
-    vector<long long> T(n + 1);
-    for (int i = 1; i <= n; i++)
-        cin >> T[i];
-    cin >> k;
-    vector<long long> sT(T); // T vector를 복사
-    sort(sT.begin(), sT.end());
-    long long rest = n;
+
+    vector<long long> t(n + 1, 0);
+
     for (int i = 1; i <= n; i++)
     {
-        if (k < (rest * (sT[i] - sT[i - 1])))
+        cin >> t[i];
+    }
+
+    cin >> k;
+
+    vector<long long> sT(t);
+    sort(sT.begin(), sT.end());
+
+    int rest = n;
+    for (int i = 1; i <= n; i++)
+    {
+        if (k < (sT[i] - sT[i - 1]) * rest)
         {
             int index = k % rest;
             int cnt = 0;
             for (int j = 1; j <= n; j++)
             {
-                if (T[j] >= sT[i])
+                if (t[j] >= sT[i])
                 {
                     if (cnt == index)
                     {
-                        cout << j;
+                        cout << j << '\n';
                         return 0;
                     }
                     cnt++;
@@ -38,10 +46,11 @@ int main(int argc, char const *argv[])
         }
         else
         {
-            k -= (rest * (sT[i] - sT[i - 1]));
+            k -= (sT[i] - sT[i - 1]) * rest;
             rest--;
         }
     }
-    cout << "-1";
+    cout << -1 << '\n';
+
     return 0;
 }
