@@ -1,58 +1,43 @@
 #include <iostream>
-#include <queue>
-#include <vector>
-#include <string>
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    ios::sync_with_stdio(false);
+    ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    cout.tie(NULL);
-
-    string str, target;
-    // priority_queue<int> index;
-    deque<int> index;
-    cin >> str >> target;
-
-    // 문자열을 한바퀴돌면서 시작위치가 일치하는 index를 저장
-    for (int i = str.size(); i >= 0; i--)
+    string a;
+    string b;
+    string t = "";
+    cin >> a >> b;
+    int a_len = a.length();
+    int b_len = b.length();
+    for (int i = 0; i < a.length(); i++)
     {
-        if (str[i] == target[0])
+        t += a[i];
+        if (t.length() >= b_len)
         {
-            index.push_back(i);
-        }
-    }
-
-    while (!index.empty())
-    {
-        int cnt = 0;
-        for (int i = 0; i < target.size(); i++)
-        {
-            if (target[i] == str[index[0] + i])
+            bool flag = true;
+            for (int j = 0; j < b_len; j++)
             {
-                cnt++;
+                if (t[t.length() - b_len + j] != b[j])
+                {
+                    flag = false;
+                    break;
+                }
             }
-            else
+            if (flag)
             {
-                break;
+                t.erase(t.end() - b_len, t.end());
             }
         }
-        if (cnt == target.size())
-        {
-            // 일치하는 문자열
-            str.erase(index[0], target.size());
-        }
-        index.pop_front();
     }
-
-    if (str == "")
+    if (t.empty())
     {
         cout << "FRULA" << '\n';
     }
     else
     {
-        cout << str << '\n';
+        cout << t << '\n';
     }
 
     return 0;
