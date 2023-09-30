@@ -6,6 +6,12 @@ using namespace std;
 
 int r, c;
 char pan[1501][1501];
+int st_x, st_y, et_x, et_y;
+
+void bfs()
+{
+    
+}
 int main(int argc, char const *argv[])
 {
     ios_base::sync_with_stdio(false);
@@ -35,6 +41,8 @@ int main(int argc, char const *argv[])
             }
         }
     }
+
+
 
     return 0;
 }
