@@ -47,15 +47,11 @@ int main(int argc, char const *argv[])
     {
         if (pan[x][i] == '*')
             la++;
-        else
-            break;
     }
     for (int i = y + 1; i <= n; i++)
     {
         if (pan[x][i] == '*')
             ra++;
-        else
-            break;
     }
     int w_x, w_y;
     for (int i = x + 1; i <= n; i++)
@@ -66,22 +62,16 @@ int main(int argc, char const *argv[])
             w_x = i;
             w_y = y;
         }
-        else
-            break;
     }
     for (int i = w_x + 1; i <= n; i++)
     {
         if (pan[i][w_y - 1] == '*')
             ll++;
-        else
-            break;
     }
     for (int i = w_x + 1; i <= n; i++)
     {
         if (pan[i][w_y + 1] == '*')
             rl++;
-        else
-            break;
     }
 
     cout << la << " " << ra << " " << w << " " << ll << " " << rl << '\n';
