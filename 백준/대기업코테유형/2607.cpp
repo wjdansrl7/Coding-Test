@@ -1,10 +1,12 @@
 #include <iostream>
-#include <unordered_map>
-#include <string>
 #include <cmath>
-
+#include <cstring>
+#include <string>
 using namespace std;
 
+int alpha[26] = {
+    0,
+};
 int main(int argc, char const *argv[])
 {
     ios_base::sync_with_stdio(false);
@@ -13,41 +15,36 @@ int main(int argc, char const *argv[])
     int n;
     cin >> n;
 
-    unordered_map<char, int> m[101];
-
-    string str;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> str;
-        for (int j = 0; j < str.size(); j++)
-        {
-            m[i][str[j]]++;
-        }
-    }
-
+    string target, str;
     int res = 0;
-    for (int i = 1; i < n; i++)
-    {
-        // 같은 구성
-        if (m[0] == m[i])
-        {
-            res++;
-            continue;
-        }
 
-        if (m[0].size() == m[i].size())
-        {
-            int cnt = 0;
-            for (auto v : m[0])
-            {
-                cnt += abs(m[i][v.first] - v.second);
-            }
-            for (auto v : m[i])
-            {
-                cnt += abs(m[0][v.first] - v.second);
-            }
-        }
+    cin >> target;
+
+    for (int i = 0; i < target.size(); i++)
+    {
+        alpha[target[i] - 'A']++;
     }
+
+    for (int i = 0; i < n - 1; i++)
+    {
+        int str_alpha[26] = {
+            0,
+        };
+        cin >> str;
+
+        for (int j = 0; j < str.size(); j++)
+            str_alpha[str[j] - 'A']++;
+
+        int sum = 0;
+        for (int j = 0; j < 26; j++)
+            sum += abs(alpha[j] - str_alpha[j]);
+
+        int diff_len = target.size() - str.size();
+        if (sum <= 2 && abs(diff_len) <= 1)
+            res++;
+    }
+
+    cout << res;
 
     return 0;
 }

@@ -46,7 +46,10 @@ int main(int argc, char const *argv[])
         }
         else if (cmd == 'B')
         {
-            q1.clear();
+            if (!q1.empty())
+            {
+                q1.pop_back();
+            }
         }
         else
         {

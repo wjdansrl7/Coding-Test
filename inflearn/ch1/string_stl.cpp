@@ -41,7 +41,6 @@ int main(int argc, char const *argv[])
     cout << '\n';
 
     cout << a.find('Y') << '\n';
-    cout << a.find("Year") << '\n';
 
     a.push_back('s'); // a += 's;
     cout << a << '\n';
