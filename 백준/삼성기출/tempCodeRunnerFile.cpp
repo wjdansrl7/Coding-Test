@@ -1,13 +1,6 @@
-    if (dist[nx][ny] == 0)
-                    {
-                        dist[nx][ny] = dist[xx][yy] + 1;
-                        q.push({nx, ny});
-                    }
-                    else
-                    {
-                        if (dist[nx][ny] > dist[xx][yy] + 1)
-                        {
-                            dist[nx][ny] = dist[xx][yy] + 1;
-                            q.push({nx, ny});
-                        }
-                    }
+ted[arr[nx][ny]] = true;
+                sx = nx;
+                sy = ny;
+                sd = dir[nx][ny];
+                DFS(nx, ny, sum + arr[nx][ny]);
+                visi
