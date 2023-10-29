@@ -5,10 +5,8 @@ using namespace std;
 int dx[] = {0, 0, -1, 1, -1, 1, -1, 1};
 int dy[] = {-1, 1, 0, 0, -1, -1, 1, 1};
 
-char arr[11][11] = {
-    0,
-} int
-main(int argc, char const *argv[])
+char arr[11][11];
+int main(int argc, char const *argv[])
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -24,8 +22,11 @@ main(int argc, char const *argv[])
 
         for (int j = 0; j < str.size(); j++)
         {
+            
         }
+        
     }
+    
 
     return 0;
 }

@@ -24,15 +24,15 @@ void dfs(int cnt)
     {
         for (int i = 0; i < v.size(); i++)
         {
-            if (visited[v[i]])
+            if (visited[i])
             {
                 continue;
             }
 
             res[cnt] = v[i];
-            visited[v[i]] = true;
+            visited[i] = true;
             dfs(cnt + 1);
-            visited[v[i]] = false;
+            visited[i] = false;
         }
     }
 }

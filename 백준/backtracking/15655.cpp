@@ -8,7 +8,7 @@ vector<int> v;
 int res[10];
 bool visited[10];
 
-void dfs(int cnt)
+void dfs(int L, int cnt)
 {
     if (cnt == m)
     {
@@ -22,21 +22,20 @@ void dfs(int cnt)
     }
     else
     {
-        for (int i = 0; i < v.size(); i++)
+        for (int i = L; i < v.size(); i++)
         {
-            if (visited[v[i]])
+            if (visited[i])
             {
                 continue;
             }
 
             res[cnt] = v[i];
-            visited[v[i]] = true;
-            dfs(cnt + 1);
-            visited[v[i]] = false;
+            visited[i] = true;
+            dfs(i + 1, cnt + 1);
+            visited[i] = false;
         }
     }
 }
-
 int main(int argc, char const *argv[])
 {
     ios_base::sync_with_stdio(false);
@@ -53,7 +52,7 @@ int main(int argc, char const *argv[])
 
     sort(v.begin(), v.end());
 
-    dfs(0);
+    dfs(0, 0);
 
     return 0;
 }

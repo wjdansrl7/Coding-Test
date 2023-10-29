@@ -15,21 +15,35 @@ int main(int argc, char const *argv[])
 
     string tmp;
     int cnt = 1;
-    // for (int i = 1; i <= str.size(); i++)
-    // {
-    for (int j = 0; j <= str.size() - cnt; j++)
+    for (int i = 1; i <= str.size(); i++)
     {
-        for (int k = j; k < cnt + j; k++)
+        for (int j = 0; j <= str.size() - cnt; j++)
         {
-            tmp += str[k];
+            for (int k = j; k < i + j; k++)
+            {
+                tmp += str[k];
+            }
+            m[tmp]++;
+            tmp.clear();
         }
-        m[tmp]++;
-        tmp.clear();
-        cnt++;
     }
-    // }
 
     cout << m.size();
 
     return 0;
 }
+
+// ==============================================
+
+/*
+string str, tmp;
+set<string> s;
+for(int i = 0; i < str.size(); i++)
+{
+    for(int j = i; str.size(); j++)
+    {
+        tmp += str[j];
+        s.insert(tmp);
+    }
+}
+*/
