@@ -42,7 +42,8 @@ int main(int argc, char const *argv[])
 
     sort(c.begin(), c.end(), cmp);
 
-    long long maxDay = INT_MIN;
+    ll maxDay = INT_MIN;
+    ll curDay = -1;
     int res = 0;
     for (int i = 0; i < n; i++)
     {

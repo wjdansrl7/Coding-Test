@@ -1,6 +1,6 @@
 #include <iostream>
-#include <string>
 #include <unordered_map>
+#include <string>
 using namespace std;
 
 int main(int argc, char const *argv[])
@@ -11,26 +11,24 @@ int main(int argc, char const *argv[])
     int T;
     cin >> T;
 
-    while (T--)
+    for (int tc = 1; tc <= T; tc++)
     {
         int n;
-        unordered_map<string, int> cloth;
-
+        unordered_map<string, int> m;
         cin >> n;
 
-        string name, menu;
-
+        string str1, str2;
         for (int i = 0; i < n; i++)
         {
-            cin >> name >> menu;
-            cloth[menu]++;
+            cin >> str1 >> str2;
+            m[str2]++;
         }
 
         int res = 1;
 
-        for (auto v : cloth)
+        for (auto v : m)
         {
-            res *= v.second + 1;
+            res *= (v.second + 1);
         }
 
         cout << res - 1 << '\n';
