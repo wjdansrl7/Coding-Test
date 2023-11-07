@@ -78,6 +78,7 @@ int main(int argc, char const *argv[])
         cin >> target;
         result.insert({target, 0});
     }
+    
     for (int j = 1; j <= n; j++)
         for (int k = 1; k <= m; k++)
             if (pan[j][k] == target[0])
