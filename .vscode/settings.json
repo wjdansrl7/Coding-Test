@@ -104,6 +104,7 @@
     "shared_mutex": "cpp",
     "stop_token": "cpp",
     "syncstream": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "__verbose_abort": "cpp"
   }
 }
