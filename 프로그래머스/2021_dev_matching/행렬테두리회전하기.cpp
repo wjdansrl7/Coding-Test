@@ -33,7 +33,7 @@ void dfs(int st_x, int st_y, int et_x, int et_y)
         int ny = yy + dy[dir];
         int nv = pan[nx][ny];
 
-        if (nx < st_x || nx > et_x || ny < st_y || ny > et_y)
+        while (nx < st_x || nx > et_x || ny < st_y || ny > et_y)
         {
             dir++;
             if (dir >= 4)

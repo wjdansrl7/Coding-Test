@@ -32,9 +32,19 @@ void Input()
     }
 }
 
-void WhiteMove(int nx, int ny, int dir, int idx)
+void WhiteMove(int curr_x, int curr_y, int curr_dir, int nx, int ny, int dir, int idx)
 {
     info[nx * n + ny].push_back(idx);
+}
+
+void RedMove()
+{
+
+}
+
+void BlueMove()
+{
+
 }
 
 void Move()
@@ -51,6 +61,7 @@ void Move()
 
         if (pan[nx][ny] == 0) // 이동할 위치가 하얀색인 경우
         {
+            WhiteMove(curr_x, curr_y, curr_dir, nx, ny, )
         }
         else if (pan[nx][ny] == 1) // 이동할 위치가 빨간색인 경우
         {
