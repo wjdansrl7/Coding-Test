@@ -32,12 +32,12 @@ public class Main {
 
     static void solution(int[] v) {
         int[][] tmp = rotation(v);
-        
+
         for (int j = 0; j < N; j++) {
             int sum = 0;
             for (int k = 0; k < M; k++)
                 sum += tmp[j][k];
-            res = Math.min(res, sum);
+            res = res > sum ? sum : res;
         }
     }
 
@@ -54,7 +54,7 @@ public class Main {
                 int tmp1 = tmp[R - s][C + s];
                 int tmp2 = tmp[R + s][C + s];
                 int tmp3 = tmp[R + s][C - s];
-                
+
                 for (int j = C + s; j > C - s; j--) {
                     tmp[R - s][j] = tmp[R - s][j - 1];
                 }
@@ -63,12 +63,12 @@ public class Main {
                     tmp[j][C + s] = tmp[j - 1][C + s];
                 }
                 tmp[R - s + 1][C + s] = tmp1;
-                
+
                 for (int j = C - s; j < C + s; j++) {
                     tmp[R + s][j] = tmp[R + s][j + 1];
                 }
                 tmp[R + s][C + s - 1] = tmp2;
-                
+
                 for (int j = R - s; j < R + s; j++) {
                     tmp[j][C - s] = tmp[j + 1][C - s];
                 }
@@ -81,7 +81,7 @@ public class Main {
 
     static int[][] copyArr() {
         int[][] tmp = new int[N][M];
-        
+
         for (int i = 0; i < N; i++)
             for (int j = 0; j < M; j++)
                 tmp[i][j] = arr[i][j];
