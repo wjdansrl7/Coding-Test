@@ -106,7 +106,7 @@ public class Main {
                 arr[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        rotationCnt = new int[K+1][3]; // k = 1부터 K개까지 저장하기 위해서
+        rotationCnt = new int[K+1][3];
 
         for (int i = 1; i <= K; i++) {
             st = new StringTokenizer(br.readLine());
