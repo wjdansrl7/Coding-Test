@@ -3,23 +3,21 @@ import java.io.*;
 
 public class Main {
     static String T, P;
-    static int[] pi;
     static int cnt = 0;
     static List<Integer> li;
 
     static int[] getPi(String p) {
-
         int pLen = p.length();
+        int[] pi = new int[pLen];
+        
         for (int i = 1, j = 0; i < pLen; i++) {
             while (j > 0 && p.charAt(i) != p.charAt(j)) j = pi[j - 1];
             if (p.charAt(i) == p.charAt(j)) pi[i] = ++j;
         }
-
         return pi;
     }
 
     static void KMP() {
-
         int[] pi = getPi(P);
 
         int tLen = T.length();
@@ -39,18 +37,16 @@ public class Main {
     }
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = null;
+        StringBuilder sb = new StringBuilder();
 
         T = br.readLine();
         P = br.readLine();
 
-        pi = new int[P.length()];
         li = new ArrayList<>();
 
         KMP();
-        System.out.println(cnt);
-        for (int i = 0; i < cnt; i++) {
-            System.out.println(li.get(i));
-        }
+        sb.append(cnt).append('\n');
+        for (int i = 0; i < cnt; i++) sb.append(li.get(i)).append(' ');
+        System.out.println(sb);
     }
 }
