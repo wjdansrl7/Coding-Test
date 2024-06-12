@@ -11,7 +11,6 @@ public class Main {
             this.to = to;
             this.weight = weight;
         }
-
         @Override
         public int compareTo(Node o) {
             return this.weight - o.weight;
@@ -39,7 +38,6 @@ public class Main {
             to = Integer.parseInt(st.nextToken());
             weight = Integer.parseInt(st.nextToken());
             nodes[from].add(new Node(to, weight));
-//            nodes[to].add(new Node(from, weight));
         }
 
         for (int i = 0; i < N + 1; i++) {
@@ -59,30 +57,18 @@ public class Main {
 
         while (!pq.isEmpty()) {
             Node p = pq.poll();
-            int minVertex = p.to;
-//            int min = p.weight;
-            int min = dist[p.to];
+            int cur = p.to;
 
-            if (v[minVertex]) continue;
-
-            v[minVertex] = true;
-//            if (minVertex == end) break;
-            for (Node node : nodes[minVertex]) {
-                if (!v[node.to] && dist[node.to] > min + node.weight) {
-                    dist[node.to] = min + node.weight;
-//                    System.out.println("node.to = " + node.to + "dist[node.to] = " + dist[node.to]);
+            if (v[cur]) continue;
+            v[cur] = true;
+            
+            for (Node node : nodes[cur]) {
+                if (!v[node.to] && dist[node.to] > dist[cur] + node.weight) {
+                    dist[node.to] = dist[cur] + node.weight;
                     pq.offer(new Node(node.to, dist[node.to]));
-//                    pq.offer(node);
                 }
             }
         }
-
-//        for (int i = 0; i < N + 1; i++) {
-//            System.out.println("dist = " + dist[i]);
-//        }
-
         System.out.println(dist[end]);
-
-
     }
 }
