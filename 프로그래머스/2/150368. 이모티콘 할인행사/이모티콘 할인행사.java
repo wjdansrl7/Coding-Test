@@ -1,65 +1,53 @@
-import java.util.*;
 class Solution {
-    static class emoticonPlus implements Comparable<emoticonPlus> {
-        int plus;
-        int total;
-        
-        public emoticonPlus(int plus, int total) {
-            this.plus = plus;
-            this.total = total;
-        }
-        
-        @Override
-        public int compareTo(emoticonPlus e1) {
-            if(this.plus == e1.plus) return Integer.compare(e1.total, this.total);
-            return Integer.compare(e1.plus, this.plus);
-        }
-    }
-    static int[] v = new int[8];
-    
-    static void permutation(int n, int k, int[][] users, int[] emoticons) {
-        if(n == k) {
-            solve(v, users, emoticons);
+    static void permutation(int cnt, int[][] users, int[] emoticons) {
+        if(cnt == emoticonLen) {
+            solve(discount, users, emoticons);
             return;
         }
-        
-        for(int i = 1; i <= 4; i++) {
-            if(v[k] != 0) continue;
-            v[k] = i * 10;
-            permutation(n, k+1, users, emoticons);
-            v[k] = 0;
+        for(int i = 1; i < 5; i++) {
+            discount[cnt] = i;
+            permutation(cnt+1, users, emoticons);
         }
     }
     
-    static PriorityQueue<emoticonPlus> pq = new PriorityQueue<>();
-    static void solve(int[] visited, int[][] users, int[] emoticons) {
-        int plus = 0;
-        int total = 0;
-        
+    static void solve(int[] discount, int[][] users, int[] emoticons) {
+        int tmp1 = 0, tmp2 = 0;
         for(int i = 0; i < users.length; i++) {
+            int minDiscount = users[i][0];
+            int maxMoney = users[i][1];
             int sum = 0;
-            for(int j =0 ; j < visited.length; j++) {
-                if(visited[j] >= users[i][0]) {
-                    sum += (100 - visited[j]) * 0.01 * emoticons[j];
-                    if(sum < users[i][1]) continue;
-                    else {
-                        plus++;
-                        sum = 0;
-                        break;
-                    }
-                }
+            for(int j = 0; j < emoticonLen; j++) {
+                // 할인율에 따라서 유저가 해당 이모티콘 구매 비용을 추가한다.
+                if(discount[j] * 10 >= minDiscount) sum += ((emoticons[j] * (10 - discount[j])) / 10);
             }
-            if(sum < users[i][1]) total += sum;
+            // 구매 비용이 유저 기준 금액을 넘어설 경우 -> 이모티콘 플러스 가입!
+            if(sum >= maxMoney) tmp1++;  
+            // 기준 금액 안쪽일 경우 판매액만 늘려준다.
+            else tmp2 += sum;
         }
-        pq.offer(new emoticonPlus(plus, total));
+        if(result1 < tmp1) {
+            result1 = tmp1;
+            result2 = tmp2;
+        } else if(result1 == tmp1) {
+            if(result2 < tmp2) result2 = tmp2;
+        } 
     }
+    
+    static int emoticonLen, result1, result2;
+    static int[] discount;
+
     public int[] solution(int[][] users, int[] emoticons) {
-        permutation(emoticons.length, 0, users, emoticons);
-        
-        emoticonPlus ee = pq.poll();
+        // 할인율 설정은 10, 20, 30, 40%로 설정할 수 있음.
         int[] answer = new int[2];
-        answer[0] = ee.plus;
-        answer[1] = ee.total;
+        
+        emoticonLen = emoticons.length;
+        discount = new int[emoticonLen];
+        
+        permutation(0, users, emoticons);
+        
+        answer[0] = result1;
+        answer[1] = result2;
+        
         return answer;
     }
 }
