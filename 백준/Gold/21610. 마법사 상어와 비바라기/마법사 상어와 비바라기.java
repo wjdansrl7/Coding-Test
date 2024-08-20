@@ -1,127 +1,109 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
+
 public class Main {
-	static int n,m;
-	static int[][] map;
-	static int[][] direction;
-	static ArrayList<int[]> cloud;
-	static int[] di = {0, 0, -1, -1, -1, 0, 1, 1, 1};
-	static int[] dj = {0, -1, -1, 0, 1, 1, 1, 0, -1};
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
+    static int[] dx = {0, -1, -1, -1, 0, 1, 1, 1};
+    static int[] dy = {-1, -1, 0, 1, 1, 1, 0, -1};
 
-		map = new int[n][n];
-		direction = new int[m][2];
+    static int N, M;
+    static int[][] arr;
+    static boolean[][] visited;
+    static ArrayDeque<int[]> q = new ArrayDeque<>();
 
-		for(int i=0;i<n;i++){
-			st = new StringTokenizer(br.readLine());
-			for(int j=0;j<n;j++){
-				map[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
+    // 대각선: 1,3,5,7
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		for(int i=0;i<m;i++){
-			st = new StringTokenizer(br.readLine());
-			for(int j=0;j<2;j++){
-				direction[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-		// 구름의 위치
-		cloud=new ArrayList<>();
-		cloud.add(new int[]{n-1,0});
-		cloud.add(new int[]{n-1,1});
-		cloud.add(new int[]{n-2,0});
-		cloud.add(new int[]{n-2,1});
+        arr = new int[N][N];
+        visited = new boolean[N][N];
 
-		for(int i=0;i<m;i++){
-			// for(int[] r:cloud){
-			// 	System.out.print(r[0]+" "+r[1] +", ");
-			// }
-			// System.out.println("!!!!!!!!!!!!");
-			// 방향
-			int d = direction[i][0];
-			// 칸 수
-			int num = direction[i][1];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
 
-			boolean[][] visted;
-			// 구름 이동 및 물의 양 1씩 증가 & 대각선 확인 후 물의 양 증가
-			visted = move(d, num);
-			// for(int[] r:nc){
-			// 	System.out.print(r[0]+" "+r[1] +", ");
-			// }
-			//System.out.println("!ncncncnc");
+        int d, s;
 
+        q.offer(new int[]{N-1, 0});
+        q.offer(new int[]{N-1, 1});
+        q.offer(new int[]{N-2, 0});
+        q.offer(new int[]{N-2, 1});
 
-			for(int a=0;a<n;a++){
-				for(int b=0;b<n;b++){
-					if(!visted[a][b] && map[a][b]>=2){
-						cloud.add(new int[]{a,b});
-						map[a][b]-=2;
-					}
-				}
-			}
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            d = Integer.parseInt(st.nextToken());
+            s = Integer.parseInt(st.nextToken());
 
-		}
-		int answer = 0;
-		for(int i=0;i<n;i++){
-			for(int j=0;j<n;j++){
-				answer+=map[i][j];
-			}
-		}
+            visited = new boolean[N][N];
+            moveCloud(d, s);
+        }
 
-		System.out.println(answer);
-		br.close();
-	}
+        int sum = 0;
 
-	private static boolean[][] move(int d, int num) {
-		boolean[][] v = new boolean[n][n];
-		ArrayList<int[]> next = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                sum +=arr[i][j];
+            }
+        }
+        System.out.println(sum);
+    }
 
-		for(int[] l: cloud){
-			int nx = l[0] + (di[d] * num);
-			int ny = l[1] + (dj[d] * num);
+    static void moveCloud(int dir, int s) {
+        ArrayDeque<int[]> q2 = new ArrayDeque<>();
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
 
-			if (nx < 0) {
-				int nn = (nx*(-1))/n;
-				nx = nx + (n*(nn+1));
-				if(nx == n) nx =0;
-			} else if (nx >= n) nx = nx % n;
-			if (ny < 0) {
-				int nn = (ny*(-1))/n;
-				ny = ny + (n*(nn+1));
-				if(ny == n) ny =0;
-			} else if (ny >= n) ny = ny % n;
+            int nx = cur[0] + dx[dir-1] * s;
+            if (nx < 0) {
+                nx = N + nx % N;
+                if (nx == N) nx = 0;
+            } else {
+                nx = nx % N;
+            }
 
-			map[nx][ny] +=1;
-			v[nx][ny] = true;
-			next.add(new int[]{nx,ny});
-		}
-		cloud = new ArrayList<>();
-		// 대각선 확인
-		for(int[] l:next){
-			int xx = l[0];
-			int yy = l[1];
+            int ny = cur[1] + dy[dir-1] * s;
+            if (ny < 0) {
+                ny = N + ny % N;
+                if (ny == N) ny = 0;
+            } else {
+                ny = ny % N;
+            }
+            arr[nx][ny]++;
+            q2.offer(new int[]{nx, ny});
+            visited[nx][ny] = true;
+        }
+        // 물복사 버그
+        while (!q2.isEmpty()) {
+            int[] cur = q2.poll();
 
-			if(xx-1>=0 && xx-1<n && yy-1>=0 && yy-1<n){
-				if(map[xx-1][yy-1]>0) map[xx][yy]++;
-			}
-			if(xx+1>=0 && xx+1<n && yy-1>=0 && yy-1<n){
-				if(map[xx+1][yy-1]>0) map[xx][yy]++;
-			}
-			if(xx-1>=0 && xx-1<n && yy+1>=0 && yy+1<n){
-				if(map[xx-1][yy+1]>0) map[xx][yy]++;
-			}
-			if(xx+1>=0 && xx+1<n && yy+1>=0 && yy+1<n){
-				if(map[xx+1][yy+1]>0) map[xx][yy]++;
-			}
-		}
+            for (int i = 1; i < 8; i+=2) {
+                int nx = cur[0] + dx[i];
+                int ny = cur[1] + dy[i];
+                if (isCheck(nx, ny) && arr[nx][ny] >= 1) {
+                    arr[cur[0]][cur[1]]++;
+                }
+            }
+        }
 
-		return v;
-	}
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (arr[i][j] >= 2 && !visited[i][j]) {
+                    arr[i][j] -= 2;
+                    q.offer(new int[]{i, j});
+                }
+            }
+        }
+    }
+
+    static boolean isCheck(int x, int y) {
+        if (x >= 0 && x < N && y >= 0 && y < N) return true;
+        return false;
+    }
 }
