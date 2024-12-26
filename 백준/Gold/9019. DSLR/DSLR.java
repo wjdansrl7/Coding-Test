@@ -1,9 +1,8 @@
 import java.io.*;
 import java.util.*;
-
 /**
  * packageName    : _241226
- * fileName       : BOJ_G4_9019_DSLR
+ * fileName       : BOJ_G4_9019_DSLR_timeSave
  * author         : moongi
  * date           : 12/26/24
  * description    :
@@ -21,50 +20,46 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             A = Integer.parseInt(st.nextToken());
             B = Integer.parseInt(st.nextToken());
-            sb.append(solve(A, B)).append('\n');
+
+            boolean[] visited = new boolean[10_000];
+            ArrayDeque<Integer> q = new ArrayDeque<>();
+            String[] command = new String[10_000];
+
+            visited[A] = true;
+            q.add(A);
+            Arrays.fill(command, "");
+
+            while (!q.isEmpty() && !visited[B]) {
+                int curr = q.poll();
+
+                int D = (2 * curr) % 10_000;
+                int S = curr == 0 ? 9999 : curr - 1;
+                int L = (curr % 1000) * 10 + curr / 1000;
+                int R = (curr % 10) * 1000 + curr / 10;
+
+                if (!visited[D]) {
+                    q.offer(D);
+                    visited[D] = true;
+                    command[D] = command[curr] + "D";
+                }
+                if (!visited[S]) {
+                    q.offer(S);
+                    visited[S] = true;
+                    command[S] = command[curr] + "S";
+                }
+                if (!visited[L]) {
+                    q.offer(L);
+                    visited[L] = true;
+                    command[L] = command[curr] + "L";
+                }
+                if (!visited[R]) {
+                    q.offer(R);
+                    visited[R] = true;
+                    command[R] = command[curr] + "R";
+                }
+            }
+            sb.append(command[B]).append('\n');
         }
         System.out.println(sb);
-
-    }
-    static class Register {
-        int num;
-        String command;
-        public Register(int num, String command) {
-            this.num = num;
-            this.command = command;
-        }
-    }
-    static Register executeCommand(int n, String command, int d) {
-        int d1 = n / 1000;
-        int d2 = (n % 1000) / 100;
-        int d3 = (n % 100) / 10;
-        int d4 = n % 10;
-
-        if (d == 0) return new Register((2 * n) % 10_000, command.concat("D"));
-        else if (d == 1) {
-            if (n == 0) return new Register(9999, command.concat("S"));
-            else return new Register(n - 1, command.concat("S"));
-        } else if (d == 2) return new Register(d2 * 1000 + d3 * 100 + d4 * 10 + d1, command.concat("L"));
-        else return new Register(d4 * 1000 + d1 * 100 + d2 * 10 + d3, command.concat("R"));
-    }
-    static String solve(int a, int b) {
-        ArrayDeque<Register> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[10000];
-
-        q.offer(new Register(a, ""));
-        visited[a] = true;
-
-        while (!q.isEmpty()) {
-            Register r = q.poll();
-
-            if (r.num == b) return r.command;
-
-            for (int d = 0; d < 4; d++) {
-                Register executed = executeCommand(r.num, r.command, d);
-                if (!visited[executed.num]) q.offer(executed);
-                visited[executed.num] = true;
-            }
-        }
-        return "";
     }
 }
