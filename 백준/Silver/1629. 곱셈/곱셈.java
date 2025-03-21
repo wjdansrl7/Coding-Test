@@ -1,28 +1,32 @@
-import java.util.*;
-import java.io.*;
 
-// 지수법칙과 모듈러 연산 중요
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
 public class Main {
-    static int a, b, c;
+	static int A, B, C;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
-    static long multiply(int a, int b, int c) {
-        if (b == 1) return a % c;
+		A = Integer.parseInt(st.nextToken());
+		B = Integer.parseInt(st.nextToken());
+		C = Integer.parseInt(st.nextToken());
 
-        long res = multiply(a, b / 2, c);
+		System.out.println(multiply(A, B, C));
+		
+	}
 
-        // long type을 벗어나므로 모듈러 합동 공식을 알고 있어야됨.
-        if (b % 2 == 1) return (res * res % c) * a % c;
+	static long multiply(int n, int exp, int mod) {
 
-        return res * res % c;
-    }
-    public static void main(String[] args) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+		if (exp == 1) return n % mod;
 
-        a = Integer.parseInt(st.nextToken());
-        b = Integer.parseInt(st.nextToken());
-        c = Integer.parseInt(st.nextToken());
+		long res = multiply(n, exp / 2, mod);
 
-        System.out.println(multiply(a,b,c));
-    }
+		res = res * res % mod;
+
+		if (exp % 2 == 1) res = res * n % mod;
+
+		return res;
+	}
 }
