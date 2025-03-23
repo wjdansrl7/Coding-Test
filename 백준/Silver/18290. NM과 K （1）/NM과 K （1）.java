@@ -39,8 +39,8 @@ public class Main {
 			return;
 		}
 
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
+		for (int i = x; i < N; i++) {
+			for (int j = (i == x ? y : 0); j < M; j++) {
 				if (!visited[i][j]) {
 					if (isRange(i, j)) {
 						visited[i][j] = true;
@@ -66,14 +66,5 @@ public class Main {
 		}
 
 		return true;
-	}
-
-	static int getScore(int[][] ret) {
-		int score = 0;
-		for (int i = 0; i < K; i++) {
-			score += board[ret[i][0]][ret[i][1]];
-		}
-
-		return score;
 	}
 }
