@@ -1,11 +1,14 @@
-import java.util.*;
+
 import java.io.*;
+import java.util.*;
 
 public class Main {
-	static int N, M, K, res = -Integer.MAX_VALUE;
+	static int N, M, K, res = Integer.MIN_VALUE;
 	static int[][] board;
+	static boolean[][] visited;
 	static int[] dx = {-1, 0, 1, 0};
 	static int[] dy = {0, 1, 0, -1};
+
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -15,6 +18,7 @@ public class Main {
 		K = Integer.parseInt(st.nextToken());
 
 		board = new int[N][M];
+		visited = new boolean[N][M];
 
 		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -23,51 +27,42 @@ public class Main {
 			}
 		}
 
-		int[][] ret = new int[K][2];
-		boolean[][] visited = new boolean[N][M];
-		combination(0, visited, ret);
+		dfs(0, 0, 0, 0);
 
 		System.out.println(res);
 	}
 
-	static void combination(int cnt, boolean[][] visited, int[][] ret) {
-
-		if (!isRange(visited, ret)) return;
+	static void dfs(int x, int y, int cnt, int sum) {
 
 		if (cnt == K) {
-			int tmp = getScore(ret);
-			res = tmp > res ? tmp : res;
-
+			res = sum > res ? sum : res;
 			return;
 		}
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (!visited[i][j]) {
-					visited[i][j] = true;
-					ret[cnt][0] = i;
-					ret[cnt][1] = j;
-					combination(cnt+1, visited, ret);
-					visited[i][j] = false;
+					if (isRange(i, j)) {
+						visited[i][j] = true;
+						dfs(i, j, cnt + 1, sum + board[i][j]);
+						visited[i][j] = false;
+					}
 				}
 			}
 		}
 	}
 
-	static boolean isRange(boolean[][] visited, int[][] ret) {
-		for (int i = 0; i < K; i++) {
+	static boolean isRange(int x, int y) {
 
-			int x = ret[i][0];
-			int y = ret[i][1];
+		for (int d = 0; d < 4; d++) {
+			int nx = x + dx[d];
+			int ny = y + dy[d];
 
-			for (int d = 0; d < 4; d++) {
-				int nx = x + dx[d];
-				int ny = y + dy[d];
+			if (nx < 0 || nx >= N || ny < 0 || ny >= M)
+				continue;
 
-				if (nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
-
-				if (visited[nx][ny]) return false;
-			}
+			if (visited[nx][ny])
+				return false;
 		}
 
 		return true;
