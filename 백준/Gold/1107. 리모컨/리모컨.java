@@ -1,35 +1,18 @@
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-	static boolean[] visited;
-	static int N, res;
-	
-	static void dfs(int idx, int channel) {
-		for (int i = 0; i < 10; i++) {
-			if (!visited[i]) {
-				int newChannel = channel * 10 + i;
-				int cnt = Math.abs(N - newChannel) + String.valueOf(newChannel).length();
-				
-				res = res > cnt ? cnt : res;
-				
-				if (idx < 6)
-					dfs(idx + 1, newChannel);
-			}
-		}
-	}
-	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		N = Integer.parseInt(br.readLine());
-		int M = Integer.parseInt(br.readLine());
-		
-		res = Math.abs(100 - N);
 
-		visited = new boolean[10];
-		
+		int N = Integer.parseInt(br.readLine());
+		int M = Integer.parseInt(br.readLine());
+
+		int res = Math.abs(100 - N);
+
+		boolean[] visited = new boolean[10];
+
 		if (M > 0) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 
@@ -38,8 +21,23 @@ public class Main {
 			}
 		}
 
-		dfs(0, 0);
+		int tmp;
+		for (int i = 0; i < 1_000_000; i++) {
+			String num = String.valueOf(i);
 
+			boolean flag = false;
+			for (int j = 0; j < num.length(); j++) {
+				if (visited[num.charAt(j)-'0']) {
+					flag = true;
+					break;
+				}
+			}
+
+			if (!flag) {
+				tmp = Math.abs(N - i) + num.length();
+				res = res > tmp ? tmp : res;
+			}
+		}
 		System.out.println(res);
 	}
 }
