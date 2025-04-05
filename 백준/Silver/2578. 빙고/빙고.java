@@ -1,42 +1,44 @@
 
-import java.io.*;
 import java.util.*;
-
+import java.io.*;
 
 public class Main {
+	static boolean[][] visited;
 
-	static class Point {
+	static Bingo[] board;
+
+	static class Bingo {
 		int x, y;
 
-		public Point(int x, int y) {
+		public Bingo(int x, int y) {
 			this.x = x;
 			this.y = y;
 		}
 	}
-
-	static Point[] points = new Point[26];
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
-		boolean[][] visited = new boolean[5][5];
 
+		visited = new boolean[5][5];
+		board = new Bingo[26];
+
+		int target;
 		for (int i = 0; i < 5; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < 5; j++) {
-				int idx = Integer.parseInt(st.nextToken());
-				points[idx] = new Point(i, j);
+				target = Integer.parseInt(st.nextToken());
+				board[target] = new Bingo(i, j);
 			}
 		}
 
-
+		int N, x, y;
 		for (int i = 0; i < 5; i++) {
 			st = new StringTokenizer(br.readLine());
-
 			for (int j = 0; j < 5; j++) {
-				int call = Integer.parseInt(st.nextToken());
-				Point curr = points[call];
+				N = Integer.parseInt(st.nextToken());
 
-				if (game(curr, visited)) {
+				visited[board[N].x][board[N].y] = true;
+				if (col() + row() + side() >= 3) {
 					System.out.println(i * 5 + j + 1);
 					return;
 				}
@@ -44,54 +46,64 @@ public class Main {
 		}
 	}
 
-	static boolean game(Point p, boolean[][] visited) {
-		visited[p.x][p.y] = true;
-		int bingo = 0;
-		int count;
+	static int col() {
+		int cnt = 0;
 
-		// col
 		for (int i = 0; i < 5; i++) {
-			count = 0;
+			boolean flag =false;
 			for (int j = 0; j < 5; j++) {
-				if (visited[i][j]) count++;
-				else break;
+				if (!visited[i][j]) {
+					flag = true;
+					break;
+				}
 			}
-
-			if (count == 5) bingo++;
-			if (bingo == 3) return true;
+			if (!flag) cnt++;
 		}
 
-		// row
+		return cnt;
+	}
+
+	static int row() {
+		int cnt = 0;
+
 		for (int i = 0; i < 5; i++) {
-			count = 0;
+			boolean flag =false;
 			for (int j = 0; j < 5; j++) {
-				if (visited[j][i]) count++;
-				else break;
+				if (!visited[j][i]) {
+					flag = true;
+					break;
+				}
 			}
-
-			if (count == 5) bingo++;
-			if (bingo == 3) return true;
+			if (!flag) cnt++;
 		}
 
-		// side
-		count = 0;
+		return cnt;
+	}
+
+	static int side() {
+		int cnt = 0;
+
+		boolean flag = false;
 		for (int i = 0; i < 5; i++) {
-			if(visited[i][i]) count++;
-			else break;
+			if (!visited[i][i]) {
+				flag = true;
+				break;
+			}
 		}
+		if (!flag)
+			cnt++;
 
-		if (count == 5) bingo++;
-		if (bingo == 3) return true;
-
-		count = 0;
+		flag = false;
 		for (int i = 0; i < 5; i++) {
-			if(visited[i][4-i]) count++;
-			else break;
+			if (!visited[i][4 - i]) {
+				flag = true;
+				break;
+			}
 		}
 
-		if (count == 5) bingo++;
-		if (bingo == 3) return true;
+		if (!flag)
+			cnt++;
 
-		return false;
+		return cnt;
 	}
 }
