@@ -37,14 +37,9 @@ public class Main {
 	static void command(int mode, int trail, int idx) {
 
 		if (mode == 1) {
-			// 연산자 우선순위 생각해야함 "==" > "&"
-			if ((arr[trail] & (1L << (idx - 1))) == 0) {
-				arr[trail] += (1L << (idx - 1));
-			}
+			arr[trail] |= (1 << idx-1);
 		} else if (mode == 2) {
-			if ((arr[trail] & (1L << (idx - 1))) != 0) {
-				arr[trail] -= (1L << (idx - 1));
-			}
+			arr[trail] &= ~(1 << (idx-1));
 		} else if (mode == 3) {
 			arr[trail] = arr[trail] << 1 & 0xfffff;
 
