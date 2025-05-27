@@ -1,11 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-
-/**
-* 지게차 사용 여부 : BFS -> visited를 통해서만 이동가능하게 해서 양쪽이 벽인지 확인
-* 크레인 사용 여부 : requests에서 같은 문자열이 두 번 반복된 경우, 해당하는 모든 문자열은 방문 처리한다.
-*/
 class Solution {
     static class Node {
         int x, y;
@@ -65,7 +60,6 @@ class Solution {
             
         } else {
             
-            
             List<Node> succ = new ArrayList<>();
             for(Node node : nodes[target - 'A']) {
                 boolean[][] v = new boolean[N][M];
@@ -82,8 +76,6 @@ class Solution {
                     int[] p = q.poll();
                     
                     if(p[0] == 0 || p[0] == N - 1 || p[1] == 0 || p[1] == M - 1) {
-                        // visited[node.x][node.y] = true;
-                        // v[node.x][node.y] = true;
                         succ.add(new Node(node.x, node.y));
                         cnt++;
                         break;
