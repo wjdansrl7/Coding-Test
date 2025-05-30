@@ -25,9 +25,7 @@ class Solution {
             }
         }
         
-        for(int i = 1; i < idx + 1; i++) {
-            // if(result[0] == i) continue;
-            
+        for(int i = 1; i < idx + 1; i++) {            
             if(out[i] >= 2 && in[i] >= 2) result[3]++;
             if(out[i] == 0 && in[i] > 0) result[2]++;
         }
