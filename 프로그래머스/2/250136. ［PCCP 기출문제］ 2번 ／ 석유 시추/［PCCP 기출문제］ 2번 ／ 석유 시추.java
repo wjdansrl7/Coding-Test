@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    
     static ArrayDeque<int[]> q;
     
     static int[] dx = {-1, 0, 1, 0};
@@ -24,14 +23,9 @@ class Solution {
            BFS(i, visited, land);
         }
         
-        for(int i = 0; i < M; i++) System.out.print(sum[i] + " ");
-        
         Arrays.sort(sum);
         
-        
         return sum[sum.length-1];
-        
-        
         
     }
     
@@ -49,8 +43,6 @@ class Solution {
             if(land[i][col] == 1 && !visited[i][col]) {
                 q.offer(new int[]{i, col});
                 visited[i][col] = true;
-                
-                // cnt = 0;
                 
                 while(!q.isEmpty()) {
                     
@@ -73,18 +65,11 @@ class Solution {
                 }
             }
             
-
             if(cnt != 0) {
                 for(int j = col; j <= maxCol; j++) {
                     sum[j] += cnt;
                 }    
             }            
-            
         }
-        
-        
-        
-        
     }
-    
 }
