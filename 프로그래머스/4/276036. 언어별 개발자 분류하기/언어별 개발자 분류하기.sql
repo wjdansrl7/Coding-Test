@@ -1,0 +1,35 @@
+-- 코드를 작성해주세요
+
+-- A: FrontEnd + Python : 256 + 2048 > 
+-- B: C# 1024
+-- C: FrontEnd > 2048
+
+SELECT
+    CASE WHEN GROUP_CONCAT(B.NAME) LIKE ("%Python%") AND GROUP_CONCAT(B.CATEGORY) LIKE("%Front%") THEN "A"
+    WHEN GROUP_CONCAT(B.NAME) LIKE ("%C#%") THEN 'B'
+    WHEN GROUP_CONCAT(B.CATEGORY) LIKE ("%Front%") THEN "C"
+    END AS GRADE, A.ID, A.EMAIL
+FROM DEVELOPERS A
+JOIN SKILLCODES B ON (A.SKILL_CODE & B.CODE = B.CODE)
+GROUP BY ID, EMAIL
+HAVING GRADE IS NOT NULL
+ORDER BY GRADE ASC, ID ASC
+
+
+-- 스킬은 2의 제곱수로 되어있음
+-- developers.skill_code & skillcodes.code != 0 -> 해당 스킬 언어를 할 수 있음
+-- skill_code로부터 어떤 스킬을 가지고 있는지 파악하고, 여기서 grade에 해당하는 
+
+
+# SELECT
+#     CASE WHEN GROUP_CONCAT(A.NAME) LIKE ("%Python%") AND GROUP_CONCAT(A.CATEGORY) LIKE ("%Front%") THEN 'A'
+#     WHEN GROUP_CONCAT(A.NAME) LIKE ("%C#") THEN 'B'
+#     WHEN GROUP_CONCAT(A.CATEGORY) LIKE ("%Front%") THEN 'C'
+#     END AS GRADE,
+#     B.ID, B.EMAIL
+# FROM SKILLCODES A
+# JOIN DEVELOPERS B
+# ON A.CODE & B.SKILL_CODE = A.CODE
+# GROUP BY B.ID, B.EMAIL
+# HAVING GRADE IS NOT NULL
+# ORDER BY GRADE, B.ID;
