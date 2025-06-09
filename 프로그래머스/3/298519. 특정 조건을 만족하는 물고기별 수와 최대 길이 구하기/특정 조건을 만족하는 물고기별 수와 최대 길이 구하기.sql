@@ -1,0 +1,20 @@
+-- 코드를 작성해주세요
+
+-- 평균 길이가 33cm 이상인 물고기들을 종류별로 분류하여 잡은 수, 최대 길이, 물고기의 종류를 출력
+-- 물고기 종류에 대해 오름차순 정렬
+-- 10cm 이하는 10cm로 취급한다.
+
+
+WITH FISH_TRANS_INFO AS (
+    SELECT ID, FISH_TYPE,
+    CASE WHEN LENGTH IS NULL OR LENGTH <= 10 THEN 10
+    ELSE LENGTH END AS LENGTH
+    , TIME
+    FROM FISH_INFO
+)
+
+SELECT COUNT(*) AS FISH_COUNT, MAX(LENGTH) AS MAX_LENGTH, FISH_TYPE
+FROM FISH_TRANS_INFO
+GROUP BY FISH_TYPE
+HAVING AVG(LENGTH) >= 33
+ORDER BY FISH_TYPE;
