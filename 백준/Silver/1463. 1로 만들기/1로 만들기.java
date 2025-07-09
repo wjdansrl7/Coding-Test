@@ -1,25 +1,58 @@
-import java.util.*;
+
 import java.io.*;
-
+import java.util.*;
+/**
+ *packageName    : _250709
+ * fileName       : BOJ_S3_1463_1로만들기
+ * author         : moongi
+ * date           : 7/9/25
+ * description    :
+ */
 public class Main {
-    static int[] dp;
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+	static final int INF = 1_000_000;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int x = Integer.parseInt(br.readLine());
+		int X = Integer.parseInt(br.readLine());
+		PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				return Integer.compare(o1[0], o2[0]);
+			}
+		});
 
-        dp = new int[x + 1];
+		pq.offer(new int[] {X, 0});
+		int ans = INF + 1;
+		int[] count = new int[INF + 1];
+		Arrays.fill(count, INF + 1);
 
-        dp[0] = 0;
-        dp[1] = 0;
+		while (!pq.isEmpty()) {
 
-        for (int i = 2; i < x + 1; i++) {
-            dp[i] = dp[i - 1] + 1;
-            if (i % 2 == 0) dp[i] = Math.min(dp[i], dp[i / 2]+1);
-            if (i % 3 == 0) dp[i] = Math.min(dp[i], dp[i / 3]+1);
-        }
-        System.out.println(dp[x]);
+			int[] p = pq.poll();
 
-    }
+			if (p[0] == 1) {
+				if (ans > p[1])
+					ans = p[1];
+				continue;
+			}
+
+			if (p[0] % 3 == 0 && count[p[0] / 3] > p[1] + 1) {
+				count[p[0] / 3] = p[1] + 1;
+				pq.offer(new int[] {p[0] / 3, p[1] + 1});
+			}
+
+			if (p[0] % 2 == 0 && count[p[0] / 2] > p[1] + 1) {
+				count[p[0] / 2] = p[1] + 1;
+				pq.offer(new int[] {p[0] / 2, p[1] + 1});
+			}
+
+			if (count[p[0] - 1] > p[1] + 1) {
+				count[p[0] - 1] = p[1] + 1;
+				pq.offer(new int[] {p[0] - 1, p[1] + 1});
+			}
+
+		}
+
+		System.out.println(ans);
+	}
 }
