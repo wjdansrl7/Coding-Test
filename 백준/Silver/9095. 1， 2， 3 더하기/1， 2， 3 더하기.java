@@ -1,21 +1,33 @@
+
 import java.io.*;
+import java.util.*;
+/**
+ *packageName    : _250709
+ * fileName       : BOJ_S3_9095_123더하기
+ * author         : moongi
+ * date           : 7/9/25
+ * description    :
+ */
 public class Main {
-    public static void main(String[] args) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        int T = Integer.parseInt(br.readLine());
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 
-        for (int tc = 0; tc < T; tc++) {
-            int n = Integer.parseInt(br.readLine());
-            int[] dp = new int[20];
+		int[] dp = new int[12];
+		dp[1] = 1;
+		dp[2] = 2;
+		dp[3] = 4;
 
-            dp[1] = 1;
-            dp[2] = 2;
-            dp[3] = 4;
+		for (int i = 4; i < 12; i++) {
+			dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
+		}
 
-            if(n > 3) for (int i = 4; i < n + 1; i++) dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
-            sb.append(dp[n]).append('\n');
-        }
-        System.out.println(sb);
-    }
+		int T = Integer.parseInt(br.readLine());
+		while (T-- > 0) {
+			int N = Integer.parseInt(br.readLine());
+
+			sb.append(dp[N]).append('\n');
+		}
+		System.out.println(sb);
+	}
 }
