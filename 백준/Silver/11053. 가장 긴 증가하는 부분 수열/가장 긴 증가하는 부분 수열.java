@@ -1,21 +1,37 @@
-import java.util.*;
+
 import java.io.*;
+import java.util.*;
+/**
+ *packageName    : _250709
+ * fileName       : BOJ_S2_11053_가장긴증가하는부분수열
+ * author         : moongi
+ * date           : 7/9/25
+ * description    :
+ */
 public class Main {
-    public static void main(String[] args) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int[] arr = new int[n];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) arr[i] = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(br.readLine());
+		int[] arr = new int[N];
+		int[] dp = new int[N];
 
-        int[] dp = new int[n];
-        for (int i = 0; i < n; i++) dp[i] = 1;
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for (int i = 0; i < N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
 
-        for (int i = 0; i < n; i++) for (int j = i; j >= 0; j--) if (arr[j] < arr[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
-        int res = 0;
-        for (int i = 0; i < n; i++) if (res < dp[i]) res = dp[i];
-        System.out.println(res);
-    }
+		for (int i = 0; i < N; i++) {
+			int max = 0;
+			for (int j = 0; j < i; j++) {
+				if (arr[i] > arr[j]) {
+					if (max < dp[j]) max = dp[j];
+				}
+			}
+			dp[i] = max + 1;
+		}
+
+		Arrays.sort(dp);
+		System.out.println(dp[N-1]);
+	}
 }
