@@ -1,6 +1,6 @@
 
 import java.io.*;
-import java.util.*;
+
 /**
  *packageName    : _250718
  * fileName       : BOJ_G5_2302_극장좌석
@@ -9,61 +9,36 @@ import java.util.*;
  * description    :
  */
 public class Main {
-	static int N, ans;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 
-		N = Integer.parseInt(br.readLine());
-		ans = 0;
+		int N = Integer.parseInt(br.readLine());
+		int ans = 1;
+		int[] dp = new int[41];
 
-		int M = Integer.parseInt(br.readLine());
-		boolean[] visited = new boolean[N + 1];
+		dp[0] = 1;
+		dp[1] = 1;
+		dp[2] = 2;
 
-		int num;
-		for (int i = 0; i < M; i++) {
-			num = Integer.parseInt(br.readLine());
-			visited[num] = true;
+		for (int i = 3; i < N + 1; i++) {
+			dp[i] = dp[i - 1] + dp[i - 2];
 		}
 
-		comb(visited, 1);
+		int M = Integer.parseInt(br.readLine());
+
+		int beforeSeat = 0;
+		for (int i = 0; i < M; i++) {
+			int fix = Integer.parseInt(br.readLine());
+
+			ans *= dp[fix - beforeSeat - 1];
+			beforeSeat = fix;
+		}
+
+		ans *= dp[N - beforeSeat]; // 마지막 vip 좌석 다음 좌석에서 끝 좌석까지의 경우의 수
 
 		sb.append(ans);
 		System.out.println(sb);
-		
-	}
 
-	static void comb(boolean[] visited, int cnt) {
-		// visited: 좌석번호, cnt: 입장권 번호
-		if (cnt == N + 1) {
-			ans++;
-
-			return;
-		}
-
-		if (visited[cnt]) {
-			comb(visited, cnt+1);
-			return;
-		}
-
-
-		if (cnt-1 > 0 && !visited[cnt-1]) {
-			// 만약 입장권 번호보다 작은 좌석 번호가 아무도 앉지 않은 경우
-			visited[cnt - 1] = true;
-			comb(visited, cnt + 1);
-			visited[cnt - 1] = false;
-		}
-
-		if (cnt > 0 && !visited[cnt]) {
-			visited[cnt] = true;
-			comb(visited, cnt + 1);
-			visited[cnt] = false;
-		}
-
-		if (cnt + 1 <= N && !visited[cnt + 1]) {
-			visited[cnt+1] = true;
-			comb(visited, cnt + 1);
-			visited[cnt+1] = false;
-		}
 	}
 }
