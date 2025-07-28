@@ -1,10 +1,11 @@
-import java.io.*;
 
+import java.util.*;
+import java.io.*;
 /**
- *packageName    : _250721
+ *packageName    : _250729
  * fileName       : BOJ_G5_17609_회문
  * author         : moongi
- * date           : 7/21/25
+ * date           : 7/28/25
  * description    :
  */
 public class Main {
@@ -17,8 +18,8 @@ public class Main {
 		for (int tc = 0; tc < T; tc++) {
 
 			String str = br.readLine();
-			sb.append(solve(str)).append('\n');
 
+			sb.append(solve(str)).append('\n');
 		}
 
 		System.out.println(sb);
@@ -35,12 +36,18 @@ public class Main {
 		if (start >= end) return 0;
 		if (isPal(str, start + 1, end) || isPal(str, start, end - 1)) return 1;
 		return 2;
+
 	}
 
 	static boolean isPal(String str, int start, int end) {
-		while (start < end) {
-			if (str.charAt(start++) != str.charAt(end--)) return false;
+
+		while (start < end && str.charAt(start) == str.charAt(end)) {
+			start++;
+			end--;
 		}
-		return true;
+
+		if (start >= end) return true;
+
+		return false;
 	}
 }
