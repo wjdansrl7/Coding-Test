@@ -1,30 +1,45 @@
-import java.util.*;
 import java.io.*;
-public class Main {
-    public static void main(String[] args) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
+import java.util.*;
 
-        ArrayDeque<Character> q = new ArrayDeque<>();
-        String str;
-        for (int i = 0; i < n; i++) {
-            str = br.readLine();
-            for (int j = 0; j < str.length(); j++) {
-                if (str.charAt(j) == '(') {
-                    q.offer('(');
-                } else {
-                    if (!q.isEmpty() && q.peekLast() == '(') q.pollLast();
-                    else q.offer(')');
-                }
-            }
-            if (q.isEmpty()) sb.append("YES").append('\n');
-            else {
-                sb.append("NO").append('\n');
-                q.clear();
-            }
-        }
-        System.out.println(sb);
-    }
+/**
+ *packageName    : _250729
+ * fileName       : BOJ_S4_9012
+ * author         : moongi
+ * date           : 7/29/25
+ * description    :
+ */
+public class Main {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+
+		int T = Integer.parseInt(br.readLine());
+
+		label: for (int tc = 0; tc < T; tc++) {
+			String str = br.readLine();
+
+			ArrayDeque<Character> q = new ArrayDeque<>();
+			for (int i = 0; i < str.length(); i++) {
+
+				if (str.charAt(i) == '(') {
+					q.offer('(');
+				} else {
+
+					if (q.isEmpty()) {
+						sb.append("NO\n");
+						continue label;
+					} else {
+						q.pollLast();
+					}
+				}
+			}
+
+			if (!q.isEmpty()) {
+				sb.append("NO\n");
+			} else {
+				sb.append("YES\n");
+			}
+		}
+		System.out.println(sb);
+	}
 }
