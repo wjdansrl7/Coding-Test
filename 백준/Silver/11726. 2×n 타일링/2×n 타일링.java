@@ -1,16 +1,16 @@
 import java.util.*;
 import java.io.*;
+
 /**
- *packageName    : _250708
+ *packageName    : _250730
  * fileName       : BOJ_S3_11726_2n타일링
  * author         : moongi
- * date           : 7/8/25
+ * date           : 7/30/25
  * description    :
  */
 public class Main {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
 
 		int N = Integer.parseInt(br.readLine());
 
@@ -22,7 +22,7 @@ public class Main {
 			dp[i] = (dp[i - 1] + dp[i - 2]) % 10007;
 		}
 
-		sb.append(dp[N]);
-		System.out.println(sb);
+		System.out.println(dp[N]);
+
 	}
 }
