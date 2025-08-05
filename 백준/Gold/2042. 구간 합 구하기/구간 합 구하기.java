@@ -1,75 +1,81 @@
-import java.util.*;
 import java.io.*;
-
+import java.util.*;
+/**
+ *packageName    : _250805
+ * fileName       : BOJ_G1_2042_구간합구하기
+ * author         : moongi
+ * date           : 8/5/25
+ * description    :
+ */
 public class Main {
+	static int N, M, K;
+	static long[] arr, tree;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
 
-    static void init(long[] a, long[] tree, int node, int start, int end) {
-        // leaf node인 경우
-        if (start == end) {
-            tree[node] = a[start];
-        } else {
-            init(a, tree, node * 2, start, (start + end) / 2);
-            init(a, tree, node * 2 + 1, (start + end) / 2 + 1, end);
-            tree[node] = tree[node * 2] + tree[node * 2 + 1];
-        }
-    }
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		K = Integer.parseInt(st.nextToken());
 
-    static long query(long[] tree, int node, int start, int end, int left, int right) {
-        if (left > end || right < start) return 0;
-        if (left <= start && end <= right) return tree[node];
+		arr = new long[N];
+		tree = new long[N * 4];
 
-        long lsum = query(tree, node * 2, start, (start + end) / 2, left, right);
-        long rsum = query(tree, node * 2 + 1, (start + end) / 2 + 1, end, left, right);
-        return lsum + rsum;
-    }
+		for (int i = 0; i < N; i++) {
+			arr[i] = Long.parseLong(br.readLine());
+		}
 
-    static void update(long[] a, long[] tree, int node, int start, int end, int index, long val) {
-        if (index < start || index > end) {
-            return;
-        }
-        if (start == end) {
-            a[index] = val;
-            tree[node] = val;
-            return;
-        }
-        update(a, tree, node * 2, start, (start + end) / 2, index, val);
-        update(a, tree, node * 2 + 1, (start + end) / 2 + 1, end, index, val);
-        tree[node] = tree[node * 2] + tree[node * 2 + 1];
-    }
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
+		init(0, N - 1, 1); // start, end, root node
 
-        st = new StringTokenizer(br.readLine());
+		for (int i = 0; i < M + K; i++) {
+			st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			long c = Long.parseLong(st.nextToken());
 
-        M += K;
-        long[] a = new long[N];
-        for (int i = 0; i < N; i++) {
-            a[i] = Long.parseLong(br.readLine());
-        }
+			if (a == 1) {
+				// update
+				update(0, N - 1, 1, b - 1, c - arr[b - 1]);
+                arr[b - 1] = c;
+			} else {
+				// 구간 합 구하기
+				sb.append(sum(0, N - 1, 1, b-1, c-1)).append('\n');
 
-        int h = (int) Math.ceil(Math.log(N) / Math.log(2));
-        int tree_size = (1 << (h + 1));
-        long[] tree = new long[tree_size];
-        init(a, tree, 1, 0, N - 1);
-        while (M-- > 0) {
-            st = new StringTokenizer(br.readLine());
-            int A = Integer.parseInt(st.nextToken());
-            if (A == 1) {
-                int index = Integer.parseInt(st.nextToken());
-                long val = Long.parseLong(st.nextToken());
-                update(a, tree, 1, 0, N - 1, index - 1, val);
-            } else {
-                int left = Integer.parseInt(st.nextToken());
-                int right = Integer.parseInt(st.nextToken());
-                sb.append(query(tree, 1, 0, N - 1, left - 1, right - 1)).append('\n');
-            }
-        }
-        System.out.println(sb);
-    }
+			}
+		}
+
+		System.out.println(sb);
+	}
+
+	static long init(int start, int end, int node) {
+
+		if (start == end) return tree[node] = arr[start];
+		int mid = (start + end) >> 1;
+		return tree[node] = init(start, mid, node * 2) + init(mid + 1, end, node * 2 + 1);
+	}
+
+	static long sum(int start, int end, int node, int left, long right) {
+		// 범위 밖에 있는 경우
+		if (left > end || right < start) return 0;
+		// 범위 안에 있는 경우
+		if (left <= start && end <= right) return tree[node];
+
+		int mid = (start + end) >> 1;
+		return sum(start, mid, node * 2, left, right) + sum(mid + 1, end, node * 2 + 1, left, right);
+
+	}
+
+	static void update(int start, int end, int node, int index, long dif) {
+
+		if (index < start || index > end) return;
+
+		tree[node] += dif;
+		if (start == end) return;
+		int mid = (start + end) >> 1;
+		update(start, mid, node * 2, index, dif);;
+		update(mid + 1, end, node * 2 + 1, index, dif);
+	}
+
 }
