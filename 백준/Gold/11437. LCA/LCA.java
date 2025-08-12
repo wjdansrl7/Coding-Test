@@ -1,97 +1,88 @@
-
 import java.util.*;
 import java.io.*;
 
 /**
- *packageName    : _250803
+ *packageName    : _250812
  * fileName       : BOJ_G3_11437_LCA
  * author         : moongi
- * date           : 8/3/25
+ * date           : 8/12/25
  * description    :
  */
 public class Main {
-	static int N, M;
+	static int[] height, p;
 	static List<Integer>[] graphs;
-	static int[] depth;
-	static int[] parents;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = null;
-		StringBuilder sb = new StringBuilder();
 
-		N = Integer.parseInt(br.readLine());
+		int N = Integer.parseInt(br.readLine());
+
+		height = new int[N + 1];
+		p = new int[N + 1];
 		graphs = new List[N + 1];
 
+		Arrays.fill(p, -1);
 		for (int i = 0; i < N + 1; i++) {
 			graphs[i] = new ArrayList<>();
 		}
 
-		depth = new int[N + 1];
-		parents = new int[N + 1];
-
-		int a, b;
 		for (int i = 0; i < N - 1; i++) {
 			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
+
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 
 			graphs[a].add(b);
 			graphs[b].add(a);
 		}
 
-		DFS(1, 1, 0);
-		
-		M = Integer.parseInt(br.readLine());
+		DFS(1,1,0);
+
+		int M = Integer.parseInt(br.readLine());
+
+		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
 
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 
 			sb.append(LCA(a, b)).append('\n');
-
 		}
-
 		System.out.println(sb);
-
 	}
 
-	static void DFS(int curr, int height, int parent) {
-
-		depth[curr] = height;
-		parents[curr] = parent;
+	static void DFS(int curr, int h, int parent) {
+		height[curr] = h;
+		p[curr] = parent;
 
 		for(Integer next : graphs[curr]) {
-
 			if (next != parent) {
-				DFS(next, height + 1, curr);
+				DFS(next, h + 1, curr);
 			}
 		}
-
 	}
 
 	static int LCA(int a, int b) {
-
-		int ah = depth[a];
-		int bh = depth[b];
+		int ah = height[a];
+		int bh = height[b];
 
 		while (ah > bh) {
-			a = parents[a];
-			ah--;
+			a = p[a];
+			ah = height[a];
 		}
 
-		while (bh > ah) {
-			b = parents[b];
-			bh--;
+		while (ah < bh) {
+			b = p[b];
+			bh = height[b];
 		}
 
 		while (a != b) {
-			a = parents[a];
-			b = parents[b];
+			a = p[a];
+			b = p[b];
 		}
 
 		return a;
 	}
-
 }
