@@ -1,104 +1,111 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
+/**
+ *packageName    : _250821
+ * fileName       : BOJ_G4_16234_인구이동
+ * author         : moongi
+ * date           : 8/21/25
+ * description    :
+ */
 public class Main {
-    static int N, L, R;
-    static int[][] arr, visited;
-    static int[] dx = {-1,0,1,0}, dy = {0, 1, 0, -1};
-    public static void main(String[] args) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        StringBuilder sb;
+	static int[][] board, changed, cnt;
+	static boolean[][] visited;
+	static int N, L, R;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
-        st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        L = Integer.parseInt(st.nextToken());
-        R = Integer.parseInt(st.nextToken());
+		N = Integer.parseInt(st.nextToken());
+		L = Integer.parseInt(st.nextToken());
+		R = Integer.parseInt(st.nextToken());
 
-        arr = new int[N][N];
+		board = new int[N + 1][N + 1]; // 각각의 칸의 인구
+		changed = new int[N + 1][N + 1]; // 같은 국경안의 지역들을 idx로 저장
+		cnt = new int[N * N + 1][2]; // [0]: 연합의 인구수 총합 / [1]: 연합의 총 개수
 
-        for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < N; j++) {
-                arr[i][j] = Integer.parseInt(st.nextToken());
-            }
-        }
+		for (int i = 1; i < N + 1; i++) {
+			st = new StringTokenizer(br.readLine());
 
-        int res = 0;
-        int[][] tmp = new int[N][N];
-        label:for (int i = 1; i <= 2000; i++) {
-            visited = new int[N][N];
+			for (int j = 1; j < N + 1; j++) {
+				board[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
 
-            for (int j = 0; j < N; j++) {
-                for (int k = 0; k < N; k++) {
-                    tmp[j][k] = arr[j][k];
-                }
-            }
-            for (int j = 0; j < N; j++) {
-                for (int k = 0; k < N; k++) {
-                    if(visited[j][k] == 0)
-                        BFS(j, k, visited);
+		int ans = 0;
+		while (true) {
+			visited = new boolean[N + 1][N + 1];
+			int idx = 1;
 
-                }
-            }
+			for (int i = 1; i < N + 1; i++) {
+				for (int j = 1; j < N + 1; j++) {
+					if (!visited[i][j]) {
+						BFS(i, j, idx++);
+					}
+				}
+			}
 
-            for (int j = 0; j < N; j++) {
-                for (int k = 0; k < N; k++) {
-                    if(tmp[j][k] != arr[j][k]) continue label;
-                }
-            }
-            if(i == 1) res = 0;
-            else res = i - 1;
-            break label;
-        }
-        System.out.println(res);
-    }
+			if (idx > N * N) break;
 
-    static void BFS(int x, int y, int[][] visited) {
-        ArrayDeque<int[]> q = new ArrayDeque<>();
-        int idx = x * N + y + 1, cnt = 0;
-        q.offer(new int[]{x, y});
-        visited[x][y] = idx;
-        cnt++;
-        while (!q.isEmpty()) {
-            int[] p = q.poll();
+			// 인구 이동 반영
+			movePeople();
 
-            for (int d = 0; d < 4; d++) {
-                int nx = p[0] + dx[d];
-                int ny = p[1] + dy[d];
+			ans++;
 
-                if (nx >= 0 && nx < N && ny >= 0 && ny < N && visited[nx][ny] == 0) {
-                    int v = Math.abs(arr[p[0]][p[1]] - arr[nx][ny]);
-                    if (v >= L && v <= R) {
-                        q.offer(new int[]{nx, ny});
-                        visited[nx][ny] = idx;
-                        cnt++;
-                    }
-                }
-            }
-        }
-        if(cnt>1)
-            movePerson(idx);
-    }
+			init();
 
-    static void movePerson(int idx) {
-        int sum = 0, cnt = 0;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (visited[i][j] == idx) {
-                    sum += arr[i][j];
-                    cnt++;
-                }
-            }
-        }
+		}
+		
+		System.out.println(ans);
+	}
 
-        int avg = sum / cnt;
+	static void init() {
+		cnt = new int[N * N + 1][2]; // 인구 이동 초기화
+		changed = new int[N + 1][N + 1]; // 연합 idx 초기화
+	}
 
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if(visited[i][j] == idx)
-                    arr[i][j] = avg;
-            }
-        }
-    }
+	static void movePeople() {
+		for (int i = 1; i < N + 1; i++) {
+			for (int j = 1; j < N + 1; j++) {
+				// 변화된 인구수
+				int sum = cnt[changed[i][j]][0] / cnt[changed[i][j]][1];
+				board[i][j] = sum;
+			}
+		}
+	}
+
+	static void BFS(int x, int y, int idx) {
+		int[] dx = {-1, 0, 1, 0};
+		int[] dy = {0, 1, 0, -1};
+
+		ArrayDeque<int[]> q = new ArrayDeque<>(); // 이동할 방향
+
+		q.offer(new int[] {x, y});
+		changed[x][y] = idx;
+		visited[x][y] = true;
+		cnt[idx][0] += board[x][y];
+		cnt[idx][1]++;
+
+		while (!q.isEmpty()) {
+
+			int[] cur = q.poll();
+
+			for (int d = 0; d < 4; d++) {
+				int nx = cur[0] + dx[d];
+				int ny = cur[1] + dy[d];
+
+				if (nx < 1 || nx > N || ny < 1 || ny > N || visited[nx][ny]) continue;
+
+				int diff = Math.abs(board[nx][ny] - board[cur[0]][cur[1]]);
+
+				if (diff < L || diff > R) continue;
+
+				q.offer(new int[] {nx, ny});
+				visited[nx][ny] = true;
+				changed[nx][ny] = idx;
+				cnt[idx][0] += board[nx][ny];
+				cnt[idx][1]++;
+			}
+		}
+	}
 }
