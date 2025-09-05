@@ -1,48 +1,59 @@
+
 import java.io.*;
 import java.util.*;
-
+/**
+ *packageName    : _250905
+ * fileName       : BOJ_S2_2961_도영이가만든맛있는음식
+ * author         : moongi
+ * date           : 9/5/25
+ * description    :
+ */
 public class Main {
-	static int n;
-	static int res = Integer.MAX_VALUE;
 	static int[][] arr;
-	static boolean[] v;
-
-	static void subs(int cnt, int sin_sum, int dan_sum) {
-		if (cnt == n) {
-			int falseCnt = 0;
-			for (int i = 0; i < n; i++) {
-				if (!v[i])
-					falseCnt++;
-			}
-			if (falseCnt == n)
-				return;
-			res = Math.min(res, Math.abs(dan_sum - sin_sum));
-			return;
-		}
-		
-		v[cnt] = true;
-		subs(cnt + 1, sin_sum * arr[cnt][0], dan_sum + arr[cnt][1]);
-		v[cnt] = false;
-		subs(cnt + 1, sin_sum, dan_sum);
-	}
-
+	static int N;
+    static long ans;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+		StringTokenizer st = null;
 
-		n = Integer.parseInt(br.readLine());
-		arr = new int[n][2];
-		v = new boolean[n];
+		N = Integer.parseInt(br.readLine());
+		arr = new int[N][2];
+		ans = Long.MAX_VALUE;
 
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
-			arr[i][0] = Integer.parseInt(st.nextToken());
-			arr[i][1] = Integer.parseInt(st.nextToken());
+			int S = Integer.parseInt(st.nextToken());
+			int B = Integer.parseInt(st.nextToken());
 
+			arr[i][0] = S;
+			arr[i][1] = B;
 		}
-		subs(0, 1, 0);
 
-		System.out.println(res);
 
+		for (int i = 1; i < N + 1; i++) {
+			boolean[] visited = new boolean[N];
+			comb(0, i, 1, 0, visited);
+		}
+
+		System.out.println(ans);
+		
+	}
+
+	static void comb(int cnt, int max, int cSum, int bSum, boolean[] visited) {
+
+		if (cnt == max) {
+			int res = Math.abs(cSum - bSum);
+			ans = ans > res ? res : ans;
+
+			return;
+		}
+
+		for (int i = 0; i < N; i++) {
+			if (visited[i]) continue;
+
+			visited[i] = true;
+			comb(cnt + 1, max, cSum * arr[i][0], bSum + arr[i][1], visited);
+			visited[i] = false;
+		}
 	}
 }
