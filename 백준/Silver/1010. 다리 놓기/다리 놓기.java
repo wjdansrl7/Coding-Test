@@ -1,11 +1,10 @@
-
 import java.io.*;
 import java.util.*;
 /**
- *packageName    : _250709
+ *packageName    : _250905
  * fileName       : BOJ_S5_1010_다리놓기
  * author         : moongi
- * date           : 7/9/25
+ * date           : 9/5/25
  * description    :
  */
 public class Main {
