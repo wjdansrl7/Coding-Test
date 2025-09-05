@@ -11,7 +11,7 @@ import java.util.*;
 public class Main {
 	static int[][] arr;
 	static int N;
-    static long ans;
+	static long ans;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = null;
@@ -32,28 +32,32 @@ public class Main {
 
 		for (int i = 1; i < N + 1; i++) {
 			boolean[] visited = new boolean[N];
-			comb(0, i, 1, 0, visited);
+			subs(0, 1, 0, visited);
 		}
 
 		System.out.println(ans);
-		
+
 	}
 
-	static void comb(int cnt, int max, int cSum, int bSum, boolean[] visited) {
+	static void subs(int cnt, int sin_sum, int dan_sum, boolean[] visited) {
+		if (cnt == N) {
+			int falseCnt = 0;
+			for (int i = 0; i < N; i++) {
+				if (!visited[i])
+					falseCnt++;
+			}
+			if (falseCnt == N)
+				return;
 
-		if (cnt == max) {
-			int res = Math.abs(cSum - bSum);
+			int res = Math.abs(dan_sum - sin_sum);
 			ans = ans > res ? res : ans;
 
 			return;
 		}
 
-		for (int i = 0; i < N; i++) {
-			if (visited[i]) continue;
-
-			visited[i] = true;
-			comb(cnt + 1, max, cSum * arr[i][0], bSum + arr[i][1], visited);
-			visited[i] = false;
-		}
+		visited[cnt] = true;
+		subs(cnt + 1, sin_sum * arr[cnt][0], dan_sum + arr[cnt][1], visited);
+		visited[cnt] = false;
+		subs(cnt + 1, sin_sum, dan_sum, visited);
 	}
 }
