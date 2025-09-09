@@ -1,45 +1,47 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 /**
- *packageName    : _250730
+ *packageName    : _250909
  * fileName       : BOJ_S2_1654_랜선자르기
  * author         : moongi
- * date           : 7/30/25
+ * date           : 9/9/25
  * description    :
  */
 public class Main {
+	static int K, N;
+	static int[] arr;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int K = Integer.parseInt(st.nextToken());
-		int N = Integer.parseInt(st.nextToken());
+		K = Integer.parseInt(st.nextToken()); // <= 10,000
+		N = Integer.parseInt(st.nextToken()); // <= 1,000,000
 
-		long[] arr = new long[K];
-		long start = 1, end = 0;
-
+		arr = new int[K];
+		long lo = 1, hi = 0;
+		long ans = 0;
 		for (int i = 0; i < K; i++) {
-			arr[i] = Long.parseLong(br.readLine());
-
-			if (end < arr[i]) end = arr[i];
+			arr[i] = Integer.parseInt(br.readLine());
+			hi = arr[i] > hi ? arr[i] : hi;
 		}
 
-		long ans = 0;
-		while (start <= end) {
+		while (lo <= hi) {
 
-			long mid = (start + end) >> 1;
+			long mid = (lo + hi) >> 1;
 
-			long cnt = 0;
+			long sum =  0;
 			for (int i = 0; i < K; i++) {
-				cnt += arr[i] / mid;
+				sum += arr[i] / mid;
 			}
 
-			if (cnt >= N) {
+			if(sum >= N) {
+				// 길이를 더 크게 해보자.
+				lo = mid + 1;
 				ans = mid;
-				start = mid + 1;
 			} else {
-				end = mid - 1;
+				// 길이를 더 작게 만들어야 한다.
+				hi = mid - 1;
 			}
 		}
 
