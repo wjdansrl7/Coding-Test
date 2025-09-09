@@ -1,55 +1,67 @@
 import java.util.*;
 import java.io.*;
 
+/**
+ *packageName    : _250909
+ * fileName       : BOJ_G4_5639_이진검색트리
+ * author         : moongi
+ * date           : 9/9/25
+ * description    :
+ */
 public class Main {
-    static class Node {
-        int data;
-        Node left, right;
+	static class Node {
+		int weight;
+		Node left, right;
 
-        public Node(int data, Node left, Node right) {
-            this.data = data;
-            this.left = left;
-            this.right = right;
-        }
-    }
-    static Node root;
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		public Node(int weight, Node left, Node right) {
+			this.weight = weight;
+			this.left = left;
+			this.right = right;
+		}
+	}
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int data = Integer.parseInt(st.nextToken());
-        root = new Node(data, null, null);
+	static Node[] nodes;
+	static StringBuilder sb = new StringBuilder();
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        while (true) {
-            String str = br.readLine();
-            if (str == "" || str == null || str.equals("")) break;
+		// 전위 순회한 결과 (Root - L - R)
+		String W = br.readLine();
 
-            data = Integer.parseInt(str);
-            preOrder(data, root);
-        }
-        postOrder(root);
-    }
+		Node root = new Node(Integer.parseInt(W), null, null);
 
-    static void postOrder(Node node) {
-        if (node.left != null) postOrder(node.left);
-        if (node.right!= null) postOrder(node.right);
-        System.out.println(node.data);
-    }
 
-    static void preOrder(int data, Node node) {
-        if (node.data < data) {
-            if (node.right != null) preOrder(data, node.right);
-            else {
-                Node newNode = new Node(data, null, null);
-                node.right = newNode;
-            }
-        } else {
-            if (node.left != null) {
-                preOrder(data, node.left);
-            } else {
-                Node newNode = new Node(data, null, null);
-                node.left = newNode;
-            }
-        }
-    }
+		while (true) {
+
+			W = br.readLine();
+			if (W == null || W.equals("") || W == "") break;
+
+			DFS(root, Integer.parseInt(W));
+		}
+
+		// 후위 순회한 결과로 반환 (L - R - Root)
+		PostOrder(root);
+		System.out.println(sb);
+	}
+
+	static void PostOrder(Node root) {
+
+		if(root.left != null) PostOrder(root.left);
+		if(root.right != null) PostOrder(root.right);
+		sb.append(root.weight).append('\n');
+
+	}
+
+	static void DFS(Node cur, int weight) {
+
+		if (cur.weight <= weight) {
+			// right
+			if(cur.right != null) DFS(cur.right, weight);
+			else cur.right = new Node(weight, null, null);
+		} else {
+			// left
+			if(cur.left != null) DFS(cur.left, weight);
+			else cur.left = new Node(weight, null, null);
+		}
+	}
 }
