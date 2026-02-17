@@ -1,38 +1,41 @@
-
 import java.util.*;
 import java.io.*;
 /**
- *packageName    : _250708
+ *packageName    : _260217
  * fileName       : BOJ_S2_1912_연속합
  * author         : moongi
- * date           : 7/8/25
+ * date           : 2/17/26
  * description    :
+ * 10, -4, 3, 1, 5, 6, -35, 12, 21, -1
+ * 10 6 9 10 15 21 -14 -2 19 18
+ *
+ * 2 1 -4 3 4 -4 6 5 -5 1
+ * 2 3 -1 2 6 2 8 13 8 9
+ *
+ * binary search
  */
 public class Main {
-	static int[] sum;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = null;
-		StringBuilder sb = new StringBuilder();
 
 		int N = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		int[] arr = new int[N];
-
-		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < N; i++) {
 			arr[i] = Integer.parseInt(st.nextToken());
 		}
 
-		sum = new int[N];
-		sum[0] = arr[0];
+		int[] sum = new int[N];
 
-		int ans = sum[0];
+		sum[0] = arr[0];
+		int res = sum[0];
+
 		for (int i = 1; i < N; i++) {
-			sum[i] = Math.max(arr[i] + sum[i - 1], arr[i]);
-			ans = Math.max(ans, sum[i]);
+			sum[i] = Math.max(arr[i] + sum[i-1], arr[i]);
+			res = Math.max(res, sum[i]);
 		}
 
-		System.out.println(ans);
+		System.out.println(res);
 	}
 }
