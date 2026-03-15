@@ -2,108 +2,78 @@
 import java.util.*;
 import java.io.*;
 
+/**
+ *packageName    : _260315
+ * fileName       : BOJ_S4_2578_빙고
+ * author         : moongi
+ * date           : 3/15/26
+ * description    :
+ */
 public class Main {
+	static int[][] board;
 	static boolean[][] visited;
 
-	static Bingo[] board;
-
-	static class Bingo {
+	static class Node {
 		int x, y;
 
-		public Bingo(int x, int y) {
+		public Node(int x, int y) {
 			this.x = x;
 			this.y = y;
 		}
 	}
+	static Node[] nodes = new Node[26];
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+		StringTokenizer st = null;
+		StringBuilder sb = new StringBuilder();
 
+		board = new int[5][5];
 		visited = new boolean[5][5];
-		board = new Bingo[26];
 
-		int target;
+		for (int i = 0; i < 26; i++) {
+			nodes[i] = new Node(0, 0);
+		}
+
+		// input board
 		for (int i = 0; i < 5; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < 5; j++) {
-				target = Integer.parseInt(st.nextToken());
-				board[target] = new Bingo(i, j);
+				int v = Integer.parseInt(st.nextToken());
+				board[i][j] = v;
+				nodes[v].x = i;
+				nodes[v].y = j;
 			}
 		}
 
-		int N, x, y;
+		// call speaker
 		for (int i = 0; i < 5; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < 5; j++) {
-				N = Integer.parseInt(st.nextToken());
+				int N = Integer.parseInt(st.nextToken());
 
-				visited[board[N].x][board[N].y] = true;
-				if (col() + row() + side() >= 3) {
-					System.out.println(i * 5 + j + 1);
+				// 사회자가 부른 숫자 방문 처리
+				visited[nodes[N].x][nodes[N].y] = true;
+
+				if (bingo(N) >= 3) {
+					sb.append(i * 5 + j + 1);
+					System.out.println(sb);
 					return;
 				}
 			}
 		}
 	}
 
-	static int col() {
-		int cnt = 0;
+	static int bingo(int N) {
+		int result = 0;
 
 		for (int i = 0; i < 5; i++) {
-			boolean flag =false;
-			for (int j = 0; j < 5; j++) {
-				if (!visited[i][j]) {
-					flag = true;
-					break;
-				}
-			}
-			if (!flag) cnt++;
+			if (visited[i][0] && visited[i][1] && visited[i][2] && visited[i][3] && visited[i][4]) result++;
+			if (visited[0][i] && visited[1][i] && visited[2][i] && visited[3][i] && visited[4][i]) result++;
 		}
 
-		return cnt;
-	}
+		if (visited[0][0] && visited[1][1] && visited[2][2] && visited[3][3] && visited[4][4]) result++;
+		if (visited[0][4] && visited[1][3] && visited[2][2] && visited[3][1] && visited[4][0]) result++;
 
-	static int row() {
-		int cnt = 0;
-
-		for (int i = 0; i < 5; i++) {
-			boolean flag =false;
-			for (int j = 0; j < 5; j++) {
-				if (!visited[j][i]) {
-					flag = true;
-					break;
-				}
-			}
-			if (!flag) cnt++;
-		}
-
-		return cnt;
-	}
-
-	static int side() {
-		int cnt = 0;
-
-		boolean flag = false;
-		for (int i = 0; i < 5; i++) {
-			if (!visited[i][i]) {
-				flag = true;
-				break;
-			}
-		}
-		if (!flag)
-			cnt++;
-
-		flag = false;
-		for (int i = 0; i < 5; i++) {
-			if (!visited[i][4 - i]) {
-				flag = true;
-				break;
-			}
-		}
-
-		if (!flag)
-			cnt++;
-
-		return cnt;
+		return result;
 	}
 }
