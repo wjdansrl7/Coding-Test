@@ -2,10 +2,10 @@
 import java.util.*;
 import java.io.*;
 /**
- *packageName    : _250701
+ *packageName    : _260405
  * fileName       : BOJ_S2_11279_최대힙
  * author         : moongi
- * date           : 7/1/25
+ * date           : 4/5/26
  * description    :
  */
 public class Main {
@@ -15,22 +15,25 @@ public class Main {
 
 		int N = Integer.parseInt(br.readLine());
 
-		PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(new Comparator<Integer>() {
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				return Integer.compare(o2, o1);
+		PriorityQueue<Integer> pq = new PriorityQueue<>(
+			new Comparator<Integer>() {
+				@Override
+				public int compare(Integer o1, Integer o2) {
+					return o2 - o1;
+				}
 			}
-		});
+		);
 
-		int target;
 		for (int i = 0; i < N; i++) {
-			target = Integer.parseInt(br.readLine());
+			int x = Integer.parseInt(br.readLine());
 
-			if (target == 0) {
-				if (!maxHeap.isEmpty()) sb.append(maxHeap.poll()).append('\n');
-				else sb.append(0).append('\n');
+			if (x != 0) {
+				pq.offer(x);
 			} else {
-				maxHeap.offer(target);
+				if (pq.isEmpty())
+					sb.append(0).append('\n');
+				else
+					sb.append(pq.poll()).append('\n');
 			}
 		}
 
