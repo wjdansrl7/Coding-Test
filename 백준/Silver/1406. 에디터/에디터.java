@@ -3,9 +3,9 @@ import java.util.*;
 import java.io.*;
 /**
  *packageName    : _260404
- * fileName       : BOJ_S2_1406_에디터
+ * fileName       : BOJ_S2_1406_에디터_Ver2
  * author         : moongi
- * date           : 4/4/26
+ * date           : 4/5/26
  * description    :
  */
 public class Main {
@@ -15,49 +15,45 @@ public class Main {
 		StringBuilder sb = new StringBuilder();
 
 		String str = br.readLine();
-		LinkedList<Character> list = new LinkedList<>();
+
+		Stack<Character> lStack = new Stack<>();
+		Stack<Character> rStack = new Stack<>();
 
 		for (int i = 0; i < str.length(); i++) {
-			list.add(str.charAt(i));
+			lStack.push(str.charAt(i));
 		}
 
-		ListIterator<Character> iter = list.listIterator();
-		while (iter.hasNext()) {
-			iter.next();
-		}
+		int M = Integer.parseInt(br.readLine());
 
-		int N = Integer.parseInt(br.readLine());
-
-		for (int i = 0; i < N; i++) {
+		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
 
 			switch (st.nextToken()) {
 				case "L":
-					if (iter.hasPrevious()) {
-						iter.previous();
-					}
+					if (!lStack.isEmpty())
+						rStack.push(lStack.pop());
 					break;
 				case "D":
-					if (iter.hasNext()) {
-						iter.next();
-					}
+					if (!rStack.isEmpty())
+						lStack.push(rStack.pop());
 					break;
 				case "B":
-					if (iter.hasPrevious()) {
-						iter.previous();
-						iter.remove();
-					}
+					if (!lStack.isEmpty())
+						lStack.pop();
 					break;
 				case "P":
-					iter.add(st.nextToken().charAt(0));
+					lStack.push(st.nextToken().charAt(0));
 					break;
 			}
 		}
 
-		for (Character c : list) {
-			sb.append(c);
+		while (!lStack.isEmpty()) {
+			rStack.push(lStack.pop());
 		}
 
+		while (!rStack.isEmpty()) {
+			sb.append(rStack.pop());
+		}
 		System.out.println(sb);
 	}
 }
