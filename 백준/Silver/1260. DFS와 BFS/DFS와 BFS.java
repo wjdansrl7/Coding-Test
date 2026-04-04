@@ -1,88 +1,86 @@
 
 import java.util.*;
 import java.io.*;
-
 /**
- *packageName    : _250623
- * fileName       : BOJ_S2_DFS와BFS
+ *packageName    : _260404
+ * fileName       : BOJ_S2_1260_DFS와BFS
  * author         : moongi
- * date           : 6/23/25
+ * date           : 4/4/26
  * description    :
  */
 public class Main {
-	static List<Integer>[] graphs;
-	static int N, M, V;
-	static StringBuilder sb;
+	static List<Integer>[] nodes;
+	static StringBuilder sb = new StringBuilder();
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		sb = new StringBuilder();
 
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		V = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		int V = Integer.parseInt(st.nextToken());
 
-		graphs = new List[N + 1];
-		for (int i = 0; i < N + 1; i++) {
-			graphs[i] = new ArrayList<>();
+		nodes = new List[N + 1];
+		for (int i = 1; i < N + 1; i++) {
+			nodes[i] = new ArrayList<>();
 		}
 
-		int a, b;
+		int v1, v2;
 		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
+			v1 = Integer.parseInt(st.nextToken());
+			v2 = Integer.parseInt(st.nextToken());
 
-			graphs[a].add(b);
-			graphs[b].add(a);
+			nodes[v1].add(v2);
+			nodes[v2].add(v1);
 		}
 
 		for (int i = 1; i < N + 1; i++) {
-			Collections.sort(graphs[i]);
+			Collections.sort(nodes[i]);
 		}
 
 		boolean[] visited = new boolean[N + 1];
-		visited[V] = true;
-		
 		DFS(V, visited);
+		visited = new boolean[N + 1];
 		sb.append('\n');
-		BFS(V);
+		BFS(V, visited);
 
 		System.out.println(sb);
-
 	}
 
 	static void DFS(int start, boolean[] visited) {
+		ArrayDeque<Integer> stk = new ArrayDeque<>();
+		stk.push(start);
 
-		sb.append(start).append(" ");
+		while (!stk.isEmpty()) {
+			int curr = stk.pop();
 
-		for (Integer next : graphs[start]) {
-			if (visited[next]) continue;
+			if (!visited[curr]) {
+				visited[curr] = true;
+				sb.append(curr).append(' ');
+			}
 
-			visited[next] = true;
-			DFS(next, visited);
+			for (int i = nodes[curr].size() - 1; i >= 0; i--) {
+				int nxt = nodes[curr].get(i);
+				if (!visited[nxt]) {
+					stk.push(nxt);
+				}
+			}
 		}
-
 	}
 
-	static void BFS(int start) {
-
+	static void BFS(int start, boolean[] visited) {
 		ArrayDeque<Integer> q = new ArrayDeque<>();
-		boolean[] visited = new boolean[N + 1];
-
 		q.offer(start);
 		visited[start] = true;
 
 		while (!q.isEmpty()) {
+			int curr = q.poll();
+			sb.append(curr).append(' ');
 
-			int p = q.poll();
-			sb.append(p).append(" ");
-
-			for (Integer next : graphs[p]) {
-				if (visited[next]) continue;
-
-				visited[next] = true;
-				q.offer(next);
+			for (Integer nxt : nodes[curr]) {
+				if (visited[nxt]) continue;
+				visited[nxt] = true;
+				q.offer(nxt);
 			}
 		}
 	}
