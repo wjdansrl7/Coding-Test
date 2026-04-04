@@ -1,37 +1,30 @@
-
 import java.util.*;
 import java.io.*;
-
 /**
- *packageName    : _250701
+ *packageName    : _260404
  * fileName       : BOJ_S3_3273_두수의합
  * author         : moongi
- * date           : 7/1/25
+ * date           : 4/4/26
  * description    :
+ *
+ * 1 2 3 5 7 9 10 11 12
+ * a[i] + a[j] = x
+ * a[i] = x - a[j]
  */
 public class Main {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
 
 		int N = Integer.parseInt(br.readLine());
-		HashMap<Integer, Integer> map = new HashMap<>();
-
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < N; i++) {
-			map.put(Integer.parseInt(st.nextToken()), 1);
-		}
+		Map<Integer, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < N; i++) map.put(Integer.parseInt(st.nextToken()), i);
 
 		int x = Integer.parseInt(br.readLine());
 		int res = 0;
 
-		for (Integer k : map.keySet()) {
-			if (map.containsKey(x - k)) {
-				res++;
-			}
-		}
-
-		sb.append(res / 2);
-		System.out.println(sb);
+		for (Integer key : map.keySet()) if (map.getOrDefault(x - key, -1) != -1) res++;
+		System.out.println(res >> 1);
 	}
 }
